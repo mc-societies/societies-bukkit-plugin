@@ -26,7 +26,7 @@ public class SocietiesPlugin extends JavaPlugin {
         File destination = new File(getDataFolder(), "libraries");
         destination.mkdirs();
         try {
-            URL librariesURL = new URL("http", "societies.frederik-schmitt.de", "/societies-libraries.tar.gz");
+            URL librariesURL = new URL("http", "societies.frederik-schmitt.de", "/societies-libraries.jar");
 
             InputStream is = librariesURL.openStream();
 
