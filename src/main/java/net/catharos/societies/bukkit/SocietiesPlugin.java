@@ -1,18 +1,20 @@
 package net.catharos.societies.bukkit;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Represents a SocietiesPlugin
@@ -30,20 +32,22 @@ public class SocietiesPlugin extends JavaPlugin {
 
             InputStream is = librariesURL.openStream();
 
-            TarArchiveInputStream taris = new TarArchiveInputStream(new GzipCompressorInputStream(new BufferedInputStream(is)));
+            ZipInputStream jaris = new ZipInputStream(is);
 
-            ArchiveEntry entry;
+//            JarArchiveInputStream taris = new TarArchiveInputStream(new GzipCompressorInputStream(new BufferedInputStream(is)));
 
-            while ((entry = taris.getNextEntry()) != null) {
+            ZipEntry entry;
+
+            while ((entry = jaris.getNextEntry()) != null) {
 //                byte[] content = new byte[(int) entry.getSize()];
 //                int read = taris.read(content, 0, content.length);
 //                IOUtils.write(content, new FileOutputStream(new File(getDataFolder(), entry.getName())));
 
 
-                IOUtils.copy(taris, new FileOutputStream(new File(destination, entry.getName())));
+                IOUtils.copy(jaris, new FileOutputStream(new File(destination, entry.getName())));
             }
 
-            taris.close();
+            jaris.close();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
