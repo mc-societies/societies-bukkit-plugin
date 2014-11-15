@@ -17,7 +17,7 @@
 
         <dependency>
             <groupId>net.catharos.bridge</groupId>
-            <artifactId>bukkit-pier</artifactId>
+            <artifactId>bukkit-bridge</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
