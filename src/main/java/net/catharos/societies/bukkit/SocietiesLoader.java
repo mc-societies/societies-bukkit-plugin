@@ -122,14 +122,15 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         ListeningExecutorService service = injector.getInstance(ListeningExecutorService.class);
 
+        service.shutdown();
+
         try {
+
             service.awaitTermination(5000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             // Nobody fucking cares!
             logger.catching(e);
         }
-
-        service.shutdown();
 
         serviceController.invoke(Lifecycle.STOPPING);
 
