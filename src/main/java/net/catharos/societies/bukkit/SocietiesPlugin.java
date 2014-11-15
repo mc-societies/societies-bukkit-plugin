@@ -27,41 +27,39 @@ public class SocietiesPlugin extends JavaPlugin {
     public void onEnable() {
         File destination = new File(getDataFolder(), "libraries");
 
-        if (false) {
-            destination.mkdirs();
-            try {
-                URL librariesURL = new URL("http", "societies.frederik-schmitt.de", "/societies-libraries.jar");
+        destination.mkdirs();
+        try {
+            URL librariesURL = new URL("http", "societies.frederik-schmitt.de", "/societies-libraries.jar");
 
-                InputStream is = librariesURL.openStream();
+            InputStream is = librariesURL.openStream();
 
-                ZipInputStream jaris = new ZipInputStream(is);
+            ZipInputStream jaris = new ZipInputStream(is);
 
 //            JarArchiveInputStream taris = new TarArchiveInputStream(new GzipCompressorInputStream(new BufferedInputStream(is)));
 
-                ZipEntry entry;
+            ZipEntry entry;
 
-                while ((entry = jaris.getNextEntry()) != null) {
+            while ((entry = jaris.getNextEntry()) != null) {
 //                byte[] content = new byte[(int) entry.getSize()];
 //                int read = taris.read(content, 0, content.length);
 //                IOUtils.write(content, new FileOutputStream(new File(getDataFolder(), entry.getName())));
 
 
-                    if (entry.getName().endsWith(".jar") || entry.getName().endsWith(".zip")) {
-                        File file = new File(destination, entry.getName());
+                if (entry.getName().endsWith(".jar") || entry.getName().endsWith(".zip")) {
+                    File file = new File(destination, entry.getName());
 
-                        file.getParentFile().mkdirs();
-                        IOUtils.copy(jaris, new FileOutputStream(file));
-                    }
+                    file.getParentFile().mkdirs();
+                    IOUtils.copy(jaris, new FileOutputStream(file));
                 }
-
-                jaris.close();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
+            jaris.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
 
         for (File file : destination.listFiles()) {
             try {
