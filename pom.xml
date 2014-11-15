@@ -108,6 +108,7 @@
 
                                     <include>org.apache.commons:commons-compress</include>
                                     <include>com.google.guava:guava</include>
+                                    <include>com.google.inject**:*</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
