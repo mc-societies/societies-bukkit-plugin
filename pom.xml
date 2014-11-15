@@ -101,7 +101,7 @@
                                     <include>net.catharos.lib:lib-groups</include>
                                     <include>net.catharos.lib:lib-core</include>
                                     <include>net.catharos.lib:lib-database</include>
-                                    <include>net.catharos.lib:lib-shank</include>
+                                    <include>net.catharos.lib:shank</include>
 
                                     <include>net.catharos.societies:societies-api</include>
                                     <include>net.catharos.societies:societies</include>

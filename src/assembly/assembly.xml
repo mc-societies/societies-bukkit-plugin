@@ -18,7 +18,7 @@
                 <exclude>net.catharos.lib:lib-groups</exclude>
                 <exclude>net.catharos.lib:lib-core</exclude>
                 <exclude>net.catharos.lib:lib-database</exclude>
-                <exclude>net.catharos.lib:lib-shank</exclude>
+                <exclude>net.catharos.lib:shank</exclude>
 
                 <exclude>net.catharos.societies:societies-api</exclude>
                 <exclude>net.catharos.societies:societies</exclude>
