@@ -32,6 +32,18 @@
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
         </repository>
+
+        <repository>
+            <id>frederik-schmitt-releases</id>
+            <name>Snapshots</name>
+            <url>http://repo.frederik-schmitt.de/content/repositories/oss-releases</url>
+        </repository>
+
+        <repository>
+            <id>frederik-schmitt-snapshots</id>
+            <name>Snapshots</name>
+            <url>http://repo.frederik-schmitt.de/content/repositories/oss-snapshots</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
@@ -87,6 +99,29 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>target/${pom.artifactId}-${pom.version}-libraries.tar.gz</file>
+                                    <type>tar.gz</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
