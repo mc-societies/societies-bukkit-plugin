@@ -29,7 +29,7 @@ public class SocietiesPlugin extends JavaPlugin {
 
         destination.mkdirs();
         try {
-            URL librariesURL = new URL("http", "societies.frederik-schmitt.de", "/societies-libraries.jar");
+            URL librariesURL = new URL("http", "dev.bukkit.org", "/media/files/831/853/societies-bukkit-plugin-libraries.jar");
 
             InputStream is = librariesURL.openStream();
 
