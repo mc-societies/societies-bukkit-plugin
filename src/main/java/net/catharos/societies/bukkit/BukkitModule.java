@@ -32,12 +32,14 @@ public class BukkitModule extends AbstractServiceModule {
     public static final Class<? extends SocietyMember> MEMBER_IMPLEMENTATION = BukkitSocietyMember.class;
 
     private final Server server;
-    private final SocietiesPlugin plugin;
+    private final Plugin plugin;
+    private final SocietiesLoader loader;
     private final Economy economy;
 
-    public BukkitModule(Server server, SocietiesPlugin plugin, Economy economy) {
+    public BukkitModule(Server server, Plugin plugin, SocietiesLoader loader, Economy economy) {
         this.server = server;
         this.plugin = plugin;
+        this.loader = loader;
         this.economy = economy;
     }
 
@@ -74,7 +76,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(NameProvider.class).to(BukkitNameProvider.class);
 
-        bind(ReloadAction.class).toInstance(plugin);
+        bind(ReloadAction.class).toInstance(loader);
 
         bind(PlayerResolver.class).to(BukkitPlayerResolver.class);
 
