@@ -92,6 +92,9 @@
                             <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <includes>
+                                    <include>org.apache.logging.log4j:log4j-core</include>
+                                    <include>org.apache.logging.log4j:log4j-api</include>
+
                                     <include>net.catharos.bridge:bridge</include>
                                     <include>net.catharos.bridge:bukkit-bridge</include>
 
