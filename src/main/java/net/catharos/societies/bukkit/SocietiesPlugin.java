@@ -44,7 +44,12 @@ public class SocietiesPlugin extends JavaPlugin {
 //                IOUtils.write(content, new FileOutputStream(new File(getDataFolder(), entry.getName())));
 
 
-                IOUtils.copy(jaris, new FileOutputStream(new File(destination, entry.getName())));
+                if (entry.getName().endsWith(".jar") || entry.getName().endsWith(".zip")) {
+                    File file = new File(destination, entry.getName());
+
+                    file.getParentFile().mkdirs();
+                    IOUtils.copy(jaris, new FileOutputStream(file));
+                }
             }
 
             jaris.close();
