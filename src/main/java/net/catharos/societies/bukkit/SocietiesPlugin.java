@@ -53,10 +53,6 @@ public class SocietiesPlugin extends JavaPlugin {
 
         for (File file : destination.listFiles()) {
             try {
-
-                if (file.getName().startsWith("log4j-core") || file.getName().startsWith("societies-bukkit-plugin")) {
-                    continue;
-                }
                 addFile(file);
             } catch (IOException e) {
                 e.printStackTrace();

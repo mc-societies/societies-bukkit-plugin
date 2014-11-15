@@ -3,7 +3,7 @@
 
     <id>libraries</id>
     <formats>
-        <format>tar.gz</format>
+        <format>jar</format>
     </formats>
 
     <includeBaseDirectory>false</includeBaseDirectory>
@@ -12,7 +12,21 @@
             <unpack>false</unpack>
 
             <excludes>
+                <exclude>net.catharos.bridge:bridge</exclude>
+                <exclude>net.catharos.bridge:bukkit-bridge</exclude>
+
+                <exclude>net.catharos.lib:lib-groups</exclude>
+                <exclude>net.catharos.lib:lib-core</exclude>
+                <exclude>net.catharos.lib:lib-database</exclude>
+                <exclude>net.catharos.lib:lib-shank</exclude>
+
+                <exclude>net.catharos.societies:societies-api</exclude>
+                <exclude>net.catharos.societies:societies</exclude>
+
+                <exclude>org.apache.commons:commons-compress</exclude>
                 <exclude>com.google.guava:guava</exclude>
+
+                <exclude>net.catharos.societies:societies-bukkit-plugin</exclude>
 
                 <exclude>org.bukkit:bukkit</exclude>
                 <exclude>org.bukkit:craftbukkit</exclude>
