@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package net.catharos.societies.bukkit.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

@@ -14,6 +14,7 @@ import net.catharos.bridge.ReloadAction;
 import net.catharos.groups.Group;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.core.command.Commands;
+import net.catharos.lib.core.command.FormatCommandIterator;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.shank.logging.LoggingModule;
 import net.catharos.lib.shank.service.ServiceController;
@@ -41,6 +42,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.util.concurrent.Futures.addCallback;
@@ -112,7 +116,21 @@ public class SocietiesLoader implements Listener, ReloadAction {
         serviceController.invoke(Lifecycle.STARTING);
 
 
+        try {
+            printPermissions(new PrintStream(new FileOutputStream("fuck")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void printPermissions(final PrintStream stream) {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ") {
+            @Override
+            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+                stream.println("   " + command.getPermission() + ": true");
+                stream.println("     description: " + "Allows you to use the command \"" + format + "\"");
+            }
+        });
     }
 
     public void onDisable() {

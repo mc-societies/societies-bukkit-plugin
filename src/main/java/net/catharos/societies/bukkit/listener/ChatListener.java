@@ -1,6 +1,7 @@
-package net.catharos.societies.bukkit;
+package net.catharos.societies.bukkit.listener;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import net.catharos.groups.Group;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.shank.logging.InjectLogger;
@@ -17,16 +18,24 @@ import java.util.concurrent.ExecutionException;
  */
 public class ChatListener implements Listener {
 
+    private final boolean integration;
     private final MemberProvider<SocietyMember> provider;
 
     @InjectLogger
     private Logger logger;
 
     @Inject
-    public ChatListener(MemberProvider<SocietyMember> provider) {this.provider = provider;}
+    public ChatListener(@Named("chat.integration") boolean integration, MemberProvider<SocietyMember> provider) {
+        this.integration = integration;
+        this.provider = provider;
+    }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
+        if (!integration) {
+            return;
+        }
+
         SocietyMember member;
         try {
             member = provider.getMember(event.getPlayer().getUniqueId()).get();

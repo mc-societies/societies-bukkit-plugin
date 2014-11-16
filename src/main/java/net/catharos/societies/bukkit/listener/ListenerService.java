@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package net.catharos.societies.bukkit.listener;
 
 import com.google.inject.Inject;
 import net.catharos.lib.shank.logging.InjectLogger;
@@ -32,5 +32,6 @@ public class ListenerService extends AbstractService {
         PluginManager pluginManager = server.getPluginManager();
         pluginManager.registerEvents(context.get(ChatListener.class), plugin);
         pluginManager.registerEvents(context.get(DamageListener.class), plugin);
+        pluginManager.registerEvents(context.get(SpawnListener.class), plugin);
     }
 }

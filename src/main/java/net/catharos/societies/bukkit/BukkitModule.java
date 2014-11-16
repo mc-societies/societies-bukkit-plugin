@@ -15,6 +15,7 @@ import net.catharos.lib.shank.service.AbstractServiceModule;
 import net.catharos.societies.api.NameProvider;
 import net.catharos.societies.api.PlayerResolver;
 import net.catharos.societies.api.member.SocietyMember;
+import net.catharos.societies.bukkit.listener.ListenerService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Server;
