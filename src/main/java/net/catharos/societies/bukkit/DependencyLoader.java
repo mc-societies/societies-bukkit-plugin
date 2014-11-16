@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -36,11 +38,20 @@ public class DependencyLoader {
 
         if (download) {
             logger.info("Downloading dependencies...");
-            download(destination, url);
+            Set<String> loaded = download(destination, url);
             PrintWriter printWriter = new PrintWriter(cacheFile);
             printWriter.print(url.toExternalForm());
             printWriter.flush();
             printWriter.close();
+
+            File[] dependencies = destination.listFiles(new JarFilter());
+
+            for (File dependency : dependencies) {
+                if (!loaded.contains(dependency.getName())) {
+                    logger.info("Deleting " + dependency.getName() + "...");
+                    dependency.delete();
+                }
+            }
         }
 
         logger.info("Loading dependencies...");
@@ -68,7 +79,8 @@ public class DependencyLoader {
         return name.endsWith(".jar") || name.endsWith(".zip");
     }
 
-    public void download(File destination, URL url) throws IOException {
+    public Set<String> download(File destination, URL url) throws IOException {
+        HashSet<String> loaded = new HashSet<String>();
         InputStream is = url.openStream();
 
         ZipInputStream zipStream = new ZipInputStream(new BufferedInputStream(is));
@@ -80,6 +92,8 @@ public class DependencyLoader {
                 File file = new File(destination, entry.getName());
 
                 file.getParentFile().mkdirs();
+
+                loaded.add(entry.getName());
 
                 if (file.exists() && file.length() == entry.getSize()) {
                     logger.info("Skipping " + entry.getName() + "!");
@@ -93,6 +107,7 @@ public class DependencyLoader {
         }
 
         zipStream.close();
+        return loaded;
     }
 
 
