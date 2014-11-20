@@ -1,8 +1,7 @@
 main: net.catharos.societies.bukkit.SocietiesPlugin
 name: Societies
 version: 0.1
-depend: [SimpleClans]
-softdepend: [ Vault, SimpleClans2 ]
+softdepend: [ Vault, SimpleClans, SimpleClans2 ]
 authors:
   - p000ison
 commands:
