@@ -87,5 +87,6 @@ public class BukkitModule extends AbstractServiceModule {
         bind(new TypeLiteral<Collection<net.catharos.bridge.Material>>() {}).toInstance(materials);
 
         install(new ConverterModule(server));
+        bindService().to(ConverterService.class);
     }
 }

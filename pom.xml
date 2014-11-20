@@ -111,6 +111,7 @@
 
                                     <include>net.catharos.societies:societies-api</include>
                                     <include>net.catharos.societies:societies</include>
+                                    <include>net.catharos.societies:societies-converter</include>
 
                                     <include>org.apache.commons:commons-compress</include>
                                     <include>com.google.guava:guava</include>

@@ -27,6 +27,7 @@
 
                 <exclude>net.catharos.societies:societies-api</exclude>
                 <exclude>net.catharos.societies:societies</exclude>
+                <exclude>net.catharos.societies:societies-converter</exclude>
 
                 <exclude>org.apache.commons:commons-compress</exclude>
                 <exclude>com.google.guava:guava</exclude>

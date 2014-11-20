@@ -26,9 +26,7 @@ import net.catharos.societies.economy.DummyEconomy;
 import net.catharos.societies.group.OnlineGroupCache;
 import net.catharos.societies.member.OnlineMemberCache;
 import net.milkbowl.vault.economy.Economy;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.spi.ExtendedLogger;
-import org.apache.logging.log4j.spi.LoggerContext;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -61,15 +59,14 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private OnlineMemberCache<SocietyMember> memberCache;
     private OnlineGroupCache groupCache;
     private Sender systemSender;
-    private ExtendedLogger logger;
+    private Logger logger;
 
     private final JavaPlugin plugin;
 
     public SocietiesLoader(JavaPlugin plugin) {this.plugin = plugin;}
 
     public void onEnable() {
-        LoggerContext context = LogManager.getContext();
-        logger = context.getLogger("bootstrap");
+        logger = new LoggerWrapper(plugin.getLogger());
 
         Economy economy;
 
@@ -88,7 +85,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         injector = Guice.createInjector(
                 new ServiceModule(),
-                new LoggingModule(context),
+                new LoggingModule(logger),
                 new SocietiesModule(dir, logger),
                 new BukkitModule(plugin.getServer(), plugin, this, economy)
         );
@@ -115,8 +112,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
 //            e.printStackTrace();
 //        }
     }
-
-
 
     public void printPermissions(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ") {
