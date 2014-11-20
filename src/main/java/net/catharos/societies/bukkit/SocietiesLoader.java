@@ -42,8 +42,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.concurrent.TimeUnit;
 
@@ -68,10 +66,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private final JavaPlugin plugin;
 
     public SocietiesLoader(JavaPlugin plugin) {this.plugin = plugin;}
-
-    public void onLoad() {
-        //getServer() -> null
-    }
 
     public void onEnable() {
         LoggerContext context = LogManager.getContext();
@@ -115,13 +109,14 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         serviceController.invoke(Lifecycle.STARTING);
 
-
-        try {
-            printPermissions(new PrintStream(new FileOutputStream("fuck")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            printPermissions(new PrintStream(new FileOutputStream("fuck")));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
+
+
 
     public void printPermissions(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ") {

@@ -26,6 +26,12 @@
             <artifactId>commons-compress</artifactId>
             <version>1.9</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.catharos.societies</groupId>
+            <artifactId>societies-converter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <repositories>

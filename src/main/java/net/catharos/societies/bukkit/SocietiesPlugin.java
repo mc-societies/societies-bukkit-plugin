@@ -48,15 +48,17 @@ public class SocietiesPlugin extends JavaPlugin {
         loader.onEnable();
     }
 
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        return loader.onCommand(sender, command, label, args);
-    }
+        return loader != null && loader.onCommand(sender, command, label, args);
 
+    }
 
     @Override
     public void onDisable() {
+        if (loader == null) {
+            return;
+        }
         loader.onDisable();
     }
 }

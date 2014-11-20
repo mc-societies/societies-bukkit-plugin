@@ -16,6 +16,7 @@ import net.catharos.societies.api.NameProvider;
 import net.catharos.societies.api.PlayerResolver;
 import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.bukkit.listener.ListenerService;
+import net.catharos.societies.converter.ConverterModule;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -84,5 +85,7 @@ public class BukkitModule extends AbstractServiceModule {
         bind(SystemSender.class).to(BukkitSystemSender.class);
 
         bind(new TypeLiteral<Collection<net.catharos.bridge.Material>>() {}).toInstance(materials);
+
+        install(new ConverterModule(server));
     }
 }
