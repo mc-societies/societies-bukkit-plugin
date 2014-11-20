@@ -47,7 +47,6 @@
                 <exclude>org.bukkit:bukkit</exclude>
                 <exclude>org.bukkit:craftbukkit</exclude>
                 <exclude>org.spigotmc:spigot-api</exclude>
-                <exclude>net.milkbowl.vault:VaultAPI</exclude>
 
                 <exclude>org.jooq:jooq-codegen</exclude>
 
