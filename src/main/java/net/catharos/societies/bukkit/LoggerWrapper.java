@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.spi.AbstractLogger;
 
+import java.text.MessageFormat;
 import java.util.logging.Logger;
 
 /**
@@ -42,24 +43,28 @@ public class LoggerWrapper extends AbstractLogger {
 
     @Override
     public void logMessage(String string, Level level, Marker marker, Message message, Throwable t) {
+        String msg = message.getFormattedMessage();
+
+        msg = MessageFormat.format(msg, message.getParameters());
+
         if (level == Level.ALL) {
-            logger.log(java.util.logging.Level.ALL, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.ALL, msg, t);
         } else if (level == Level.DEBUG) {
-            logger.log(java.util.logging.Level.FINEST, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.FINEST, msg, t);
         } else if (level == Level.ERROR) {
-            logger.log(java.util.logging.Level.SEVERE, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.SEVERE, msg, t);
         } else if (level == Level.FATAL) {
-            logger.log(java.util.logging.Level.SEVERE, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.SEVERE, msg, t);
         } else if (level == Level.INFO) {
-            logger.log(java.util.logging.Level.INFO, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.INFO, msg, t);
         } else if (level == Level.OFF) {
-            logger.log(java.util.logging.Level.OFF, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.OFF, msg, t);
         } else if (level == Level.TRACE) {
-            logger.log(java.util.logging.Level.SEVERE, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.SEVERE, msg, t);
         } else if (level == Level.WARN) {
-            logger.log(java.util.logging.Level.WARNING, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.WARNING, msg, t);
         } else {
-            logger.log(java.util.logging.Level.INFO, message.getFormattedMessage(), t);
+            logger.log(java.util.logging.Level.INFO, msg, t);
         }
     }
 
