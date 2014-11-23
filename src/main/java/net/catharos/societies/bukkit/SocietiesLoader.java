@@ -104,6 +104,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
         groupCache = injector.getInstance(OnlineGroupCache.class);
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
 
+
         serviceController.invoke(Lifecycle.STARTING);
 
 //        try {

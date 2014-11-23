@@ -48,6 +48,9 @@
                 <exclude>org.bukkit:craftbukkit</exclude>
                 <exclude>org.spigotmc:spigot-api</exclude>
 
+                <exclude>com.p000ison.dev.simpleclans2:SimpleClans2</exclude>
+                <exclude>net.sacredlabyrinth.phaed.simpleclans:SimpleClans</exclude>
+
                 <exclude>org.jooq:jooq-codegen</exclude>
 
                 <exclude>org.jukito:jukito</exclude>
