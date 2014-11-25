@@ -2,7 +2,6 @@ package net.catharos.societies.bukkit;
 
 
 import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Guice;
@@ -11,7 +10,6 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import net.catharos.bridge.ReloadAction;
-import net.catharos.groups.Group;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.core.command.Commands;
 import net.catharos.lib.core.command.FormatCommandIterator;
@@ -23,17 +21,12 @@ import net.catharos.lib.shank.service.lifecycle.Lifecycle;
 import net.catharos.societies.SocietiesModule;
 import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.economy.DummyEconomy;
-import net.catharos.societies.group.OnlineGroupCache;
-import net.catharos.societies.member.OnlineMemberCache;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -56,8 +49,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private Commands<Sender> commands;
     private MemberProvider<SocietyMember> memberProvider;
     private ServiceController serviceController;
-    private OnlineMemberCache<SocietyMember> memberCache;
-    private OnlineGroupCache groupCache;
     private Sender systemSender;
     private Logger logger;
 
@@ -100,8 +91,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {}));
         memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider<SocietyMember>>() {}));
-        memberCache = injector.getInstance(Key.get(new TypeLiteral<OnlineMemberCache<SocietyMember>>() {}));
-        groupCache = injector.getInstance(OnlineGroupCache.class);
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
 
 
@@ -176,41 +165,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
 
         return true;
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerLoginEvent event) {
-        ListenableFuture<SocietyMember> future = memberProvider.getMember(event.getPlayer().getUniqueId());
-
-        Futures.addCallback(future, new FutureCallback<SocietyMember>() {
-            @Override
-            public void onSuccess(@Nullable SocietyMember result) {
-                if (result != null) {
-                    result.activate();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                logger.catching(t);
-            }
-        });
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        SocietyMember member = memberCache.clear(event.getPlayer().getUniqueId());
-
-
-        if (member != null) {
-
-            member.activate();
-
-            Group group = member.getGroup();
-            if (group != null) {
-                groupCache.clear(member, group);
-            }
-        }
     }
 
     @Override

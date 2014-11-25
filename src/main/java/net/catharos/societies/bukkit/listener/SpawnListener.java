@@ -12,6 +12,7 @@ import net.catharos.groups.setting.Setting;
 import net.catharos.lib.shank.logging.InjectLogger;
 import net.catharos.societies.api.member.SocietyMember;
 import org.apache.logging.log4j.Logger;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -42,7 +43,9 @@ public class SpawnListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(final PlayerRespawnEvent event) {
         if (respawnHome) {
-            ListenableFuture<SocietyMember> member = memberProvider.getMember(event.getPlayer().getUniqueId());
+            Player player = event.getPlayer();
+
+            ListenableFuture<SocietyMember> member = memberProvider.getMember(player.getUniqueId());
 
             Futures.addCallback(member, new FutureCallback<SocietyMember>() {
                 @Override
