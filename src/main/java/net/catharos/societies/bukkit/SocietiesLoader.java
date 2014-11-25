@@ -171,8 +171,15 @@ public class SocietiesLoader implements Listener, ReloadAction {
     public List<String> onTabComplete(CommandSender sender, final org.bukkit.command.Command command, String alias, final String[] args) {
         if (sender instanceof Player) {
 
+            if (args.length < 1) {
+                return null;
+            }
+
+            String[] arguments = new String[args.length - 1];
+            System.arraycopy(args, 0, arguments, 0, args.length - 1);
+
             // Using dummy sender
-            CommandContext<Sender> ctx = commands.createContext(new SystemSender(), command.getName(), args);
+            CommandContext<Sender> ctx = commands.createContext(new SystemSender(), command.getName(), arguments);
 
             Command<Sender> groupCommand = ctx.getCommand();
 
@@ -181,7 +188,9 @@ public class SocietiesLoader implements Listener, ReloadAction {
                 List<String> output = new ArrayList<String>(((GroupCommand<Sender>) groupCommand).size());
 
                 for (Command<Sender> cmd : ((GroupCommand<Sender>) groupCommand).getChildren()) {
-                    output.add(cmd.getIdentifier());
+                    if (cmd.getIdentifier().startsWith(args[args.length - 1])) {
+                        output.add(cmd.getIdentifier());
+                    }
                 }
 
                 return output;
