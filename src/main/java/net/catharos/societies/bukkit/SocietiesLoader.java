@@ -20,6 +20,7 @@ import net.catharos.lib.shank.service.ServiceModule;
 import net.catharos.lib.shank.service.lifecycle.Lifecycle;
 import net.catharos.societies.SocietiesModule;
 import net.catharos.societies.api.member.SocietyMember;
+import net.catharos.societies.bukkit.util.LoggerWrapper;
 import net.catharos.societies.economy.DummyEconomy;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.logging.log4j.Logger;

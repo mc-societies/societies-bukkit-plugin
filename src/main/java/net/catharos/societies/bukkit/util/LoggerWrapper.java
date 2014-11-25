@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package net.catharos.societies.bukkit.util;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;

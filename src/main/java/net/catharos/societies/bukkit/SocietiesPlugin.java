@@ -51,7 +51,6 @@ public class SocietiesPlugin extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return loader != null && loader.onCommand(sender, command, label, args);
-
     }
 
     @Override
