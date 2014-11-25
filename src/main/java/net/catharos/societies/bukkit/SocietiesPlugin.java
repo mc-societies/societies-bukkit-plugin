@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Represents a SocietiesPlugin
@@ -51,6 +52,14 @@ public class SocietiesPlugin extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         return loader != null && loader.onCommand(sender, command, label, args);
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (loader == null) {
+            return null;
+        }
+        return loader.onTabComplete(sender, command, alias, args);
     }
 
     @Override

@@ -11,8 +11,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import net.catharos.bridge.ReloadAction;
 import net.catharos.groups.MemberProvider;
-import net.catharos.lib.core.command.Commands;
-import net.catharos.lib.core.command.FormatCommandIterator;
+import net.catharos.lib.core.command.*;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.shank.logging.LoggingModule;
 import net.catharos.lib.shank.service.ServiceController;
@@ -24,7 +23,6 @@ import net.catharos.societies.bukkit.util.LoggerWrapper;
 import net.catharos.societies.economy.DummyEconomy;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.logging.log4j.Logger;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -35,6 +33,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.google.common.util.concurrent.Futures.addCallback;
@@ -137,7 +137,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
 
-    public boolean onCommand(CommandSender sender, final Command command, String label, final String[] args) {
+    public boolean onCommand(CommandSender sender, final org.bukkit.command.Command command, String label, final String[] args) {
 
         if (injector == null) {
             sender.sendMessage("Societies failed to start somehow, sorry :/ Fuck the dev!!");
@@ -166,6 +166,29 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
 
         return true;
+    }
+
+    public List<String> onTabComplete(CommandSender sender, final org.bukkit.command.Command command, String alias, final String[] args) {
+        if (sender instanceof Player) {
+
+            // Using dummy sender
+            CommandContext<Sender> ctx = commands.createContext(new SystemSender(), command.getName(), args);
+
+            Command<Sender> groupCommand = ctx.getCommand();
+
+            if (groupCommand instanceof GroupCommand) {
+
+                List<String> output = new ArrayList<String>(((GroupCommand<Sender>) groupCommand).size());
+
+                for (Command<Sender> cmd : ((GroupCommand<Sender>) groupCommand).getChildren()) {
+                    output.add(cmd.getIdentifier());
+                }
+
+                return output;
+            }
+        }
+
+        return null;
     }
 
     @Override
