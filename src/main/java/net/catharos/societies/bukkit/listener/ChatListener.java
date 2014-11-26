@@ -8,6 +8,7 @@ import net.catharos.lib.shank.logging.InjectLogger;
 import net.catharos.societies.api.member.SocietyMember;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -30,15 +31,8 @@ public class ChatListener implements Listener {
         this.provider = provider;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-
-//        Team test = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("Test");
-//        test.addPlayer(event.getPlayer());
-//        test.setPrefix("Prefix1");
-//        test.setSuffix("Suffix");
-
-
         if (!integration) {
             return;
         }

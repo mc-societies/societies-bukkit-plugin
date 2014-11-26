@@ -103,7 +103,7 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
 
     @Override
     public boolean isAvailable() {
-        return toPlayer() != null;
+        return server.getPlayer(getUUID()) != null;
     }
 
     @Override
