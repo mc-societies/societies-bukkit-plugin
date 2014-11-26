@@ -32,6 +32,13 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
+
+//        Team test = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("Test");
+//        test.addPlayer(event.getPlayer());
+//        test.setPrefix("Prefix1");
+//        test.setSuffix("Suffix");
+
+
         if (!integration) {
             return;
         }

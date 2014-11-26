@@ -9,6 +9,7 @@ import net.catharos.bridge.bukkit.BukkitInventory;
 import net.catharos.bridge.bukkit.BukkitItemStack;
 import net.catharos.bridge.bukkit.BukkitWorld;
 import net.catharos.groups.DefaultMember;
+import net.catharos.groups.event.EventController;
 import net.catharos.groups.publisher.MemberCreatedPublisher;
 import net.catharos.groups.publisher.MemberGroupPublisher;
 import net.catharos.groups.publisher.MemberLastActivePublisher;
@@ -23,6 +24,7 @@ import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.member.locale.LocaleProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -54,9 +56,10 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
                                MemberLastActivePublisher lastActivePublisher,
                                MemberCreatedPublisher createdPublisher,
                                Server server, Materials materials,
-                               @Named("default-rank") Rank defaultRank) {
+                               @Named("default-rank") Rank defaultRank,
+                               EventController eventController) {
         this(uuid.get(), localeProvider, directory, economy, societyPublisher, nameProvider, memberRankPublisher,
-                lastActivePublisher, createdPublisher, server, materials, defaultRank);
+                lastActivePublisher, createdPublisher, server, materials, defaultRank, eventController);
     }
 
     @AssistedInject
@@ -69,8 +72,9 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
                                MemberLastActivePublisher lastActivePublisher,
                                MemberCreatedPublisher createdPublisher,
                                Server server, Materials materials,
-                               @Named("default-rank") Rank defaultRank) {
-        super(uuid, societyPublisher, memberRankPublisher, lastActivePublisher, createdPublisher, defaultRank);
+                               @Named("default-rank") Rank defaultRank,
+                               EventController eventController) {
+        super(uuid, societyPublisher, memberRankPublisher, lastActivePublisher, createdPublisher, defaultRank, eventController);
         this.localeProvider = localeProvider;
         this.directory = dictionary;
         this.economy = economy;
@@ -142,6 +146,14 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
 
     public Player toPlayer() {
         Player player = server.getPlayer(getUUID());
+        if (player == null) {
+            throw new RuntimeException("Player not available!");
+        }
+        return player;
+    }
+
+    public OfflinePlayer toOfflinePlayer() {
+        OfflinePlayer player = server.getOfflinePlayer(getUUID());
         if (player == null) {
             throw new RuntimeException("Player not available!");
         }
