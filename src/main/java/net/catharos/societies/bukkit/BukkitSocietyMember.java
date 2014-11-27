@@ -3,27 +3,20 @@ package net.catharos.societies.bukkit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
-import com.google.inject.name.Named;
 import net.catharos.bridge.*;
 import net.catharos.bridge.bukkit.BukkitInventory;
 import net.catharos.bridge.bukkit.BukkitItemStack;
 import net.catharos.bridge.bukkit.BukkitWorld;
 import net.catharos.groups.DefaultMember;
-import net.catharos.groups.event.EventController;
-import net.catharos.groups.publisher.MemberCreatedPublisher;
-import net.catharos.groups.publisher.MemberGroupPublisher;
-import net.catharos.groups.publisher.MemberLastActivePublisher;
-import net.catharos.groups.publisher.MemberRankPublisher;
-import net.catharos.groups.rank.Rank;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.core.command.sender.SenderHelper;
 import net.catharos.lib.core.i18n.Dictionary;
-import net.catharos.societies.api.NameProvider;
 import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.member.locale.LocaleProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -38,48 +31,33 @@ import java.util.UUID;
  */
 public class BukkitSocietyMember extends DefaultMember implements SocietyMember {
 
-    private final Server server;
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;
-    private final NameProvider nameProvider;
+
     private final Economy economy;
     private final Materials materials;
 
-    @Inject
+    @AssistedInject
     public BukkitSocietyMember(Provider<UUID> uuid,
                                LocaleProvider localeProvider,
                                Dictionary<String> directory,
-                               MemberGroupPublisher societyPublisher,
-                               NameProvider nameProvider,
-                               MemberRankPublisher memberRankPublisher,
                                Economy economy,
-                               MemberLastActivePublisher lastActivePublisher,
-                               MemberCreatedPublisher createdPublisher,
-                               Server server, Materials materials,
-                               @Named("default-rank") Rank defaultRank,
-                               EventController eventController) {
-        this(uuid.get(), localeProvider, directory, economy, societyPublisher, nameProvider, memberRankPublisher,
-                lastActivePublisher, createdPublisher, server, materials, defaultRank, eventController);
+                               Materials materials,
+                               Statics statics) {
+        this(uuid.get(), localeProvider, directory, economy, statics, materials);
     }
 
-    @AssistedInject
+    @Inject
     public BukkitSocietyMember(@Assisted UUID uuid,
                                LocaleProvider localeProvider,
                                Dictionary<String> dictionary,
-                               Economy economy, MemberGroupPublisher societyPublisher,
-                               NameProvider nameProvider,
-                               MemberRankPublisher memberRankPublisher,
-                               MemberLastActivePublisher lastActivePublisher,
-                               MemberCreatedPublisher createdPublisher,
-                               Server server, Materials materials,
-                               @Named("default-rank") Rank defaultRank,
-                               EventController eventController) {
-        super(uuid, societyPublisher, memberRankPublisher, lastActivePublisher, createdPublisher, defaultRank, eventController);
+                               Economy economy,
+                               Statics statics,
+                               Materials materials) {
+        super(uuid, statics);
         this.localeProvider = localeProvider;
         this.directory = dictionary;
         this.economy = economy;
-        this.nameProvider = nameProvider;
-        this.server = server;
         this.materials = materials;
     }
 
@@ -98,12 +76,16 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     @Override
     @Nullable
     public String getName() {
-        return nameProvider.getName(getUUID());
+        return getServer().getOfflinePlayer(getUUID()).getName();
     }
 
     @Override
     public boolean isAvailable() {
-        return server.getPlayer(getUUID()) != null;
+        return getServer().getPlayer(getUUID()) != null;
+    }
+
+    private Server getServer() {
+        return Bukkit.getServer();
     }
 
     @Override
@@ -144,8 +126,13 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
         return player != null && (command.getPermission() == null || player.hasPermission(command.getPermission()));
     }
 
+    @Nullable
     public Player toPlayer() {
-        Player player = server.getPlayer(getUUID());
+        return getServer().getPlayer(getUUID());
+    }
+
+    public Player toPlayerNotNull() {
+        Player player = getServer().getPlayer(getUUID());
         if (player == null) {
             throw new RuntimeException("Player not available!");
         }
@@ -153,7 +140,7 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     }
 
     public OfflinePlayer toOfflinePlayer() {
-        OfflinePlayer player = server.getOfflinePlayer(getUUID());
+        OfflinePlayer player = getServer().getOfflinePlayer(getUUID());
         if (player == null) {
             throw new RuntimeException("Player not available!");
         }
@@ -182,36 +169,36 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
 
     @Override
     public int getFoodLevel() {
-        Player player = toPlayer();
+        Player player = toPlayerNotNull();
         return player.getFoodLevel();
     }
 
     @Nullable
     @Override
     public Location getLocation() {
-        Player player = toPlayer();
+        Player player = toPlayerNotNull();
         return BukkitWorld.toLocation(player.getLocation());
     }
 
     @Override
     public World getWorld() {
-        return new BukkitWorld(toPlayer().getWorld());
+        return new BukkitWorld(toPlayerNotNull().getWorld());
     }
 
     @Override
     public boolean teleport(Location location) {
-        return toPlayer().teleport(BukkitWorld.toBukkitLocation(server, location));
+        return toPlayerNotNull().teleport(BukkitWorld.toBukkitLocation(getServer(), location));
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void sendBlockChange(Location location, Material material, byte b) {
-        toPlayer().sendBlockChange(BukkitWorld.toBukkitLocation(server, location), BukkitItemStack
+        toPlayerNotNull().sendBlockChange(BukkitWorld.toBukkitLocation(getServer(), location), BukkitItemStack
                 .toBukkitMaterial(material), b);
     }
 
     @Override
     public Inventory getInventory() {
-        return new BukkitInventory(materials, toPlayer().getInventory());
+        return new BukkitInventory(materials, toPlayerNotNull().getInventory());
     }
 }
