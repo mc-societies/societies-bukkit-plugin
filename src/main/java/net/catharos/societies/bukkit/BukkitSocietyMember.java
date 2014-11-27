@@ -37,7 +37,7 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     private final Economy economy;
     private final Materials materials;
 
-    @AssistedInject
+    @Inject
     public BukkitSocietyMember(Provider<UUID> uuid,
                                LocaleProvider localeProvider,
                                Dictionary<String> directory,
@@ -47,7 +47,7 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
         this(uuid.get(), localeProvider, directory, economy, statics, materials);
     }
 
-    @Inject
+    @AssistedInject
     public BukkitSocietyMember(@Assisted UUID uuid,
                                LocaleProvider localeProvider,
                                Dictionary<String> dictionary,
