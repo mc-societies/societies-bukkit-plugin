@@ -41,6 +41,7 @@
                 <exclude>org.jooq:jooq-meta</exclude>
                 <exclude>mysql:mysql-connector-java</exclude>
 
+                <exclude>org.flywaydb:flyway-core</exclude>
 
                 <exclude>net.catharos.societies:societies-bukkit-plugin</exclude>
 
