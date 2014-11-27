@@ -53,9 +53,12 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private Sender systemSender;
     private Logger logger;
 
+    private final ClassLoader classLoader;
     private final JavaPlugin plugin;
 
-    public SocietiesLoader(JavaPlugin plugin) {this.plugin = plugin;}
+    public SocietiesLoader(ClassLoader classLoader, JavaPlugin plugin) {
+        this.classLoader = classLoader;
+        this.plugin = plugin;}
 
     public void onEnable() {
         logger = new LoggerWrapper(plugin.getLogger());
@@ -204,5 +207,9 @@ public class SocietiesLoader implements Listener, ReloadAction {
     public void reload() {
         onDisable();
         onEnable();
+    }
+
+    public ClassLoader getClassLoader() {
+        return classLoader;
     }
 }

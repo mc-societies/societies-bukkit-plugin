@@ -88,5 +88,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         install(new ConverterModule(server));
         bindService().to(ConverterService.class);
+
+        bind(ClassLoader.class).toInstance(loader.getClassLoader());
     }
 }

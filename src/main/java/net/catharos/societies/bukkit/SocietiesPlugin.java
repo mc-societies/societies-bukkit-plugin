@@ -45,7 +45,7 @@ public class SocietiesPlugin extends JavaPlugin {
             return;
         }
 
-        loader = new SocietiesLoader(this);
+        loader = new SocietiesLoader(getClassLoader(), this);
         loader.onEnable();
     }
 
