@@ -8,7 +8,7 @@ import net.catharos.bridge.bukkit.BukkitWorld;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.core.i18n.Dictionary;
-import net.catharos.societies.api.member.SocietyMember;
+import net.catharos.societies.api.economy.EconomyParticipant;
 import net.catharos.societies.member.locale.LocaleProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -24,7 +24,7 @@ import java.util.UUID;
 /**
  * Represents a SocietyMember
  */
-public class BukkitSocietyMember implements SocietyMember, Sender {
+public class BukkitSocieties implements EconomyParticipant, net.catharos.bridge.Player, Sender {
 
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;
@@ -34,7 +34,7 @@ public class BukkitSocietyMember implements SocietyMember, Sender {
     private final UUID uuid;
 
     @Inject
-    public BukkitSocietyMember(LocaleProvider localeProvider, Dictionary<String> directory, Economy economy, Materials materials, UUID uuid) {
+    public BukkitSocieties(LocaleProvider localeProvider, Dictionary<String> directory, Economy economy, Materials materials, UUID uuid) {
         this.localeProvider = localeProvider;
         this.directory = directory;
         this.economy = economy;

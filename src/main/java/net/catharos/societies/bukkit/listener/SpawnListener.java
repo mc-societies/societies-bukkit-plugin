@@ -59,7 +59,7 @@ public class SpawnListener implements Listener {
 
 
                     if (location != null) {
-                        result.getExtension(net.catharos.bridge.Player.class).teleport(location);
+                        result.get(net.catharos.bridge.Player.class).teleport(location);
                     }
                 }
 

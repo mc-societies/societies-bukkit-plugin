@@ -6,7 +6,7 @@ import net.catharos.groups.Member;
 import net.catharos.groups.event.GroupTagEvent;
 import net.catharos.groups.event.MemberJoinEvent;
 import net.catharos.groups.event.MemberLeaveEvent;
-import net.catharos.societies.bukkit.BukkitSocietyMember;
+import net.catharos.societies.bukkit.BukkitSocieties;
 import net.engio.mbassy.listener.Handler;
 import net.engio.mbassy.listener.Invoke;
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public class TeamListener {
     }
 
     public void setupMember(Member member) {
-        OfflinePlayer player = ((BukkitSocietyMember) member).toOfflinePlayer();
+        OfflinePlayer player = ((BukkitSocieties) member).toOfflinePlayer();
 
         Group group = member.getGroup();
 
@@ -53,7 +53,7 @@ public class TeamListener {
     }
 
     public void removeMember(Member member, Group group) {
-        OfflinePlayer player = ((BukkitSocietyMember) member).toOfflinePlayer();
+        OfflinePlayer player = ((BukkitSocieties) member).toOfflinePlayer();
 
         Team team = getTeam(group);
         team.removePlayer(player);

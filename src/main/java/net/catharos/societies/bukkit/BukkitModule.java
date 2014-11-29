@@ -13,7 +13,6 @@ import net.catharos.lib.core.command.SystemSender;
 import net.catharos.lib.shank.service.AbstractServiceModule;
 import net.catharos.societies.api.NameProvider;
 import net.catharos.societies.api.PlayerResolver;
-import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.bukkit.listener.ListenerService;
 import net.catharos.societies.converter.ConverterModule;
 import net.milkbowl.vault.economy.Economy;
@@ -29,8 +28,6 @@ import java.util.Collection;
  * Represents a BukkitModule
  */
 public class BukkitModule extends AbstractServiceModule {
-
-    public static final Class<? extends SocietyMember> MEMBER_IMPLEMENTATION = BukkitSocietyMember.class;
 
     private final Server server;
     private final Plugin plugin;
@@ -60,13 +57,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(Scheduler.class).to(net.catharos.bridge.bukkit.BukkitScheduler.class);
 
-//        install(new FactoryModuleBuilder()
-//                .implement(SocietyMember.class, MEMBER_IMPLEMENTATION)
-//                .build(new TypeLiteral<MemberFactory>() {}));
-
         bind(MemberFactory.class).to(BukkitMemberFactory.class);
-
-//        bind(SocietyMember.class).to(MEMBER_IMPLEMENTATION);
 
 
         Material[] values = Material.values();

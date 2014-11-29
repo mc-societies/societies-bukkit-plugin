@@ -31,7 +31,7 @@ public class BukkitMemberFactory implements MemberFactory {
 
     @Override
     public Member create(UUID uuid) {
-        BukkitSocietyMember bukkit = new BukkitSocietyMember(localeProvider, directory, economy, materials, uuid);
+        BukkitSocieties bukkit = new BukkitSocieties(localeProvider, directory, economy, materials, uuid);
 
         DefaultMember member = new DefaultMember(uuid, new DefaultSubject(uuid), new DefaultParticipant(bukkit), bukkit);
 
