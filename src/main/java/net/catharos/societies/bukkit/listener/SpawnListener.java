@@ -7,10 +7,10 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import net.catharos.bridge.Location;
 import net.catharos.groups.Group;
+import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.groups.setting.Setting;
 import net.catharos.lib.shank.logging.InjectLogger;
-import net.catharos.societies.api.member.SocietyMember;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 public class SpawnListener implements Listener {
 
     private final boolean respawnHome;
-    private final MemberProvider<SocietyMember> memberProvider;
+    private final MemberProvider memberProvider;
     private final Setting<Location> homeSetting;
 
     @InjectLogger
@@ -32,7 +32,7 @@ public class SpawnListener implements Listener {
 
     @Inject
     public SpawnListener(@Named("society.home.replace-spawn") boolean respawnHome,
-                         MemberProvider<SocietyMember> memberProvider,
+                         MemberProvider memberProvider,
                          @Named("home") Setting<Location> homeSetting) {
 
         this.respawnHome = respawnHome;
@@ -45,11 +45,11 @@ public class SpawnListener implements Listener {
         if (respawnHome) {
             Player player = event.getPlayer();
 
-            ListenableFuture<SocietyMember> member = memberProvider.getMember(player.getUniqueId());
+            ListenableFuture<Member> member = memberProvider.getMember(player.getUniqueId());
 
-            Futures.addCallback(member, new FutureCallback<SocietyMember>() {
+            Futures.addCallback(member, new FutureCallback<Member>() {
                 @Override
-                public void onSuccess(SocietyMember result) {
+                public void onSuccess(Member result) {
                     Group group = result.getGroup();
                     if (group == null) {
                         return;
@@ -59,7 +59,7 @@ public class SpawnListener implements Listener {
 
 
                     if (location != null) {
-                        result.teleport(location);
+                        result.getExtension(net.catharos.bridge.Player.class).teleport(location);
                     }
                 }
 

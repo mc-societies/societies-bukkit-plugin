@@ -3,9 +3,9 @@ package net.catharos.societies.bukkit.listener;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import net.catharos.groups.Group;
+import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.shank.logging.InjectLogger;
-import net.catharos.societies.api.member.SocietyMember;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,13 +20,13 @@ import java.util.concurrent.ExecutionException;
 public class ChatListener implements Listener {
 
     private final boolean integration;
-    private final MemberProvider<SocietyMember> provider;
+    private final MemberProvider provider;
 
     @InjectLogger
     private Logger logger;
 
     @Inject
-    public ChatListener(@Named("chat.integration") boolean integration, MemberProvider<SocietyMember> provider) {
+    public ChatListener(@Named("chat.integration") boolean integration, MemberProvider provider) {
         this.integration = integration;
         this.provider = provider;
     }
@@ -37,7 +37,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        SocietyMember member;
+        Member member;
         try {
             member = provider.getMember(event.getPlayer().getUniqueId()).get();
         } catch (InterruptedException e) {

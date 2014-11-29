@@ -5,9 +5,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import net.catharos.groups.Group;
+import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.shank.logging.InjectLogger;
-import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.group.OnlineGroupCache;
 import net.catharos.societies.member.OnlineMemberCache;
 import org.apache.logging.log4j.Logger;
@@ -23,15 +23,15 @@ import javax.annotation.Nullable;
  */
 public class JoinListener implements Listener {
 
-    private final MemberProvider<SocietyMember> memberProvider;
-    private final OnlineMemberCache<SocietyMember> memberCache;
+    private final MemberProvider memberProvider;
+    private final OnlineMemberCache memberCache;
     private final OnlineGroupCache groupCache;
 
     @InjectLogger
     private Logger logger;
 
     @Inject
-    public JoinListener(MemberProvider<SocietyMember> memberProvider, OnlineMemberCache<SocietyMember> memberCache, OnlineGroupCache groupCache) {
+    public JoinListener(MemberProvider memberProvider, OnlineMemberCache memberCache, OnlineGroupCache groupCache) {
         this.memberProvider = memberProvider;
         this.memberCache = memberCache;
         this.groupCache = groupCache;
@@ -39,11 +39,11 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerLoginEvent event) {
-        ListenableFuture<SocietyMember> future = memberProvider.getMember(event.getPlayer().getUniqueId());
+        ListenableFuture<Member> future = memberProvider.getMember(event.getPlayer().getUniqueId());
 
-        Futures.addCallback(future, new FutureCallback<SocietyMember>() {
+        Futures.addCallback(future, new FutureCallback<Member>() {
             @Override
-            public void onSuccess(@Nullable SocietyMember result) {
+            public void onSuccess(@Nullable Member result) {
                 if (result != null) {
                     result.activate();
                 }
@@ -58,7 +58,7 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        SocietyMember member = memberCache.clear(event.getPlayer().getUniqueId());
+        Member member = memberCache.clear(event.getPlayer().getUniqueId());
 
 
         if (member != null) {

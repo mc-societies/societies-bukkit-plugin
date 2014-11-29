@@ -19,6 +19,7 @@ public class BukkitPlayerResolver implements PlayerResolver {
     @Inject
     public BukkitPlayerResolver(Server sender) {this.sender = sender;}
 
+    @SuppressWarnings("deprecation")
     @Nullable
     @Override
     public UUID getPlayer(String name) {

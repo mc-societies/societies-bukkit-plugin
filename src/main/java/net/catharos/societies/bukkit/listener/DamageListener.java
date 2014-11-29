@@ -7,7 +7,6 @@ import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.groups.Relation;
 import net.catharos.groups.setting.Setting;
-import net.catharos.societies.api.member.SocietyMember;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -26,7 +25,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class DamageListener implements Listener {
 
-    private final MemberProvider<SocietyMember> provider;
+    private final MemberProvider provider;
     private final ArrayList disabledWorlds;
     private final boolean globalFFForced;
     private final boolean saveCivilians;
@@ -34,7 +33,7 @@ public class DamageListener implements Listener {
     private final Setting<Boolean> groupFF;
 
     @Inject
-    public DamageListener(MemberProvider<SocietyMember> provider,
+    public DamageListener(MemberProvider provider,
                           @Named("blacklisted-worlds") ArrayList disabledWorlds,
                           @Named("pvp.global-ff-forced") boolean globalFFForced,
                           @Named("pvp.save-civilians") boolean saveCivilians,

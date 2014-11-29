@@ -10,6 +10,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import net.catharos.bridge.ReloadAction;
+import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.lib.core.command.*;
 import net.catharos.lib.core.command.sender.Sender;
@@ -18,7 +19,6 @@ import net.catharos.lib.shank.service.ServiceController;
 import net.catharos.lib.shank.service.ServiceModule;
 import net.catharos.lib.shank.service.lifecycle.Lifecycle;
 import net.catharos.societies.SocietiesModule;
-import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.bukkit.util.LoggerWrapper;
 import net.catharos.societies.economy.DummyEconomy;
 import net.milkbowl.vault.economy.Economy;
@@ -48,7 +48,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private Injector injector;
 
     private Commands<Sender> commands;
-    private MemberProvider<SocietyMember> memberProvider;
+    private MemberProvider memberProvider;
     private ServiceController serviceController;
     private Sender systemSender;
     private Logger logger;
@@ -94,7 +94,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {}));
-        memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider<SocietyMember>>() {}));
+        memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {}));
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
 
 
@@ -148,11 +148,11 @@ public class SocietiesLoader implements Listener, ReloadAction {
         }
 
         if (sender instanceof Player) {
-            ListenableFuture<SocietyMember> future = memberProvider.getMember(((Player) sender).getUniqueId());
+            ListenableFuture<Member> future = memberProvider.getMember(((Player) sender).getUniqueId());
 
-            addCallback(future, new FutureCallback<SocietyMember>() {
+            addCallback(future, new FutureCallback<Member>() {
                 @Override
-                public void onSuccess(@Nullable SocietyMember result) {
+                public void onSuccess(@Nullable Member result) {
                     commands.execute(result, command.getName(), args);
                 }
 

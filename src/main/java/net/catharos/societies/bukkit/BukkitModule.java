@@ -1,7 +1,6 @@
 package net.catharos.societies.bukkit;
 
 import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import gnu.trove.set.hash.THashSet;
 import net.catharos.bridge.ReloadAction;
 import net.catharos.bridge.Scheduler;
@@ -61,11 +60,13 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(Scheduler.class).to(net.catharos.bridge.bukkit.BukkitScheduler.class);
 
-        install(new FactoryModuleBuilder()
-                .implement(SocietyMember.class, MEMBER_IMPLEMENTATION)
-                .build(new TypeLiteral<MemberFactory<SocietyMember>>() {}));
+//        install(new FactoryModuleBuilder()
+//                .implement(SocietyMember.class, MEMBER_IMPLEMENTATION)
+//                .build(new TypeLiteral<MemberFactory>() {}));
 
-        bind(SocietyMember.class).to(MEMBER_IMPLEMENTATION);
+        bind(MemberFactory.class).to(BukkitMemberFactory.class);
+
+//        bind(SocietyMember.class).to(MEMBER_IMPLEMENTATION);
 
 
         Material[] values = Material.values();

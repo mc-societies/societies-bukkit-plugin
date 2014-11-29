@@ -1,16 +1,12 @@
 package net.catharos.societies.bukkit;
 
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 import net.catharos.bridge.*;
 import net.catharos.bridge.bukkit.BukkitInventory;
 import net.catharos.bridge.bukkit.BukkitItemStack;
 import net.catharos.bridge.bukkit.BukkitWorld;
-import net.catharos.groups.DefaultMember;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
-import net.catharos.lib.core.command.sender.SenderHelper;
 import net.catharos.lib.core.i18n.Dictionary;
 import net.catharos.societies.api.member.SocietyMember;
 import net.catharos.societies.member.locale.LocaleProvider;
@@ -22,43 +18,28 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import javax.inject.Provider;
 import java.util.Locale;
 import java.util.UUID;
 
 /**
  * Represents a SocietyMember
  */
-public class BukkitSocietyMember extends DefaultMember implements SocietyMember {
+public class BukkitSocietyMember implements SocietyMember, Sender {
 
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;
 
     private final Economy economy;
     private final Materials materials;
+    private final UUID uuid;
 
     @Inject
-    public BukkitSocietyMember(Provider<UUID> uuid,
-                               LocaleProvider localeProvider,
-                               Dictionary<String> directory,
-                               Economy economy,
-                               Materials materials,
-                               Statics statics) {
-        this(uuid.get(), localeProvider, directory, economy, statics, materials);
-    }
-
-    @AssistedInject
-    public BukkitSocietyMember(@Assisted UUID uuid,
-                               LocaleProvider localeProvider,
-                               Dictionary<String> dictionary,
-                               Economy economy,
-                               Statics statics,
-                               Materials materials) {
-        super(uuid, statics);
+    public BukkitSocietyMember(LocaleProvider localeProvider, Dictionary<String> directory, Economy economy, Materials materials, UUID uuid) {
         this.localeProvider = localeProvider;
-        this.directory = dictionary;
+        this.directory = directory;
         this.economy = economy;
         this.materials = materials;
+        this.uuid = uuid;
     }
 
     @Override
@@ -76,12 +57,12 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     @Override
     @Nullable
     public String getName() {
-        return getServer().getOfflinePlayer(getUUID()).getName();
+        return getServer().getOfflinePlayer(uuid).getName();
     }
 
     @Override
     public boolean isAvailable() {
-        return getServer().getPlayer(getUUID()) != null;
+        return getServer().getPlayer(uuid) != null;
     }
 
     private Server getServer() {
@@ -115,11 +96,6 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     }
 
     @Override
-    public <S extends Sender, R> R as(Executor<S, R> executor, Class<S> clazz) {
-        return SenderHelper.as(executor, clazz, this);
-    }
-
-    @Override
     public boolean hasPermission(Command command) {
         Player player = toPlayer();
 
@@ -128,11 +104,11 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
 
     @Nullable
     public Player toPlayer() {
-        return getServer().getPlayer(getUUID());
+        return getServer().getPlayer(uuid);
     }
 
     public Player toPlayerNotNull() {
-        Player player = getServer().getPlayer(getUUID());
+        Player player = getServer().getPlayer(uuid);
         if (player == null) {
             throw new RuntimeException("Player not available!");
         }
@@ -140,7 +116,7 @@ public class BukkitSocietyMember extends DefaultMember implements SocietyMember 
     }
 
     public OfflinePlayer toOfflinePlayer() {
-        OfflinePlayer player = getServer().getOfflinePlayer(getUUID());
+        OfflinePlayer player = getServer().getOfflinePlayer(uuid);
         if (player == null) {
             throw new RuntimeException("Player not available!");
         }
