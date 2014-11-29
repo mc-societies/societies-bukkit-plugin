@@ -7,6 +7,7 @@ import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.groups.Relation;
 import net.catharos.groups.setting.Setting;
+import net.catharos.lib.shank.config.ConfigSetting;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -17,7 +18,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 public class DamageListener implements Listener {
 
     private final MemberProvider provider;
-    private final ArrayList disabledWorlds;
+    private final List<String> disabledWorlds;
     private final boolean globalFFForced;
     private final boolean saveCivilians;
     private final Setting<Boolean> personalFF;
@@ -34,9 +35,9 @@ public class DamageListener implements Listener {
 
     @Inject
     public DamageListener(MemberProvider provider,
-                          @Named("blacklisted-worlds") ArrayList disabledWorlds,
-                          @Named("pvp.global-ff-forced") boolean globalFFForced,
-                          @Named("pvp.save-civilians") boolean saveCivilians,
+                          @ConfigSetting("blacklisted-worlds") List<String> disabledWorlds,
+                          @ConfigSetting("pvp.global-ff-forced") boolean globalFFForced,
+                          @ConfigSetting("pvp.save-civilians") boolean saveCivilians,
                           @Named("personal-friendly-fire") Setting<Boolean> personalFF,
                           @Named("group-friendly-fire") Setting<Boolean> groupFF) {
         this.provider = provider;

@@ -1,10 +1,10 @@
 package net.catharos.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import net.catharos.groups.Group;
 import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
+import net.catharos.lib.shank.config.ConfigSetting;
 import net.catharos.lib.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
@@ -26,7 +26,7 @@ public class ChatListener implements Listener {
     private Logger logger;
 
     @Inject
-    public ChatListener(@Named("chat.integration") boolean integration, MemberProvider provider) {
+    public ChatListener(@ConfigSetting("chat.integration") boolean integration, MemberProvider provider) {
         this.integration = integration;
         this.provider = provider;
     }

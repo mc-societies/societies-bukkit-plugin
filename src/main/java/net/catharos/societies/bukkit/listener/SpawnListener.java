@@ -10,6 +10,7 @@ import net.catharos.groups.Group;
 import net.catharos.groups.Member;
 import net.catharos.groups.MemberProvider;
 import net.catharos.groups.setting.Setting;
+import net.catharos.lib.shank.config.ConfigSetting;
 import net.catharos.lib.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.entity.Player;
@@ -31,7 +32,7 @@ public class SpawnListener implements Listener {
 
 
     @Inject
-    public SpawnListener(@Named("society.home.replace-spawn") boolean respawnHome,
+    public SpawnListener(@ConfigSetting("society.home.replace-spawn") boolean respawnHome,
                          MemberProvider memberProvider,
                          @Named("home") Setting<Location> homeSetting) {
 
