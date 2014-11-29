@@ -32,7 +32,7 @@ public class SpawnListener implements Listener {
 
 
     @Inject
-    public SpawnListener(@ConfigSetting("society.home.replace-spawn") boolean respawnHome,
+    public SpawnListener(@ConfigSetting("home.replace-spawn") boolean respawnHome,
                          MemberProvider memberProvider,
                          @Named("home") Setting<Location> homeSetting) {
 
