@@ -2,9 +2,11 @@ package net.catharos.societies.bukkit;
 
 import com.google.inject.Inject;
 import net.catharos.bridge.Materials;
+import net.catharos.bridge.Player;
 import net.catharos.groups.*;
 import net.catharos.groups.setting.subject.DefaultSubject;
 import net.catharos.lib.core.i18n.Dictionary;
+import net.catharos.societies.api.economy.EconomyParticipant;
 import net.catharos.societies.member.locale.LocaleProvider;
 import net.milkbowl.vault.economy.Economy;
 
@@ -36,6 +38,9 @@ public class BukkitMemberFactory implements MemberFactory {
         DefaultMember member = new DefaultMember(uuid, new DefaultSubject(uuid), new DefaultParticipant(bukkit), bukkit);
 
         member.setMemberHeart(new DefaultMemberHeart(statics, member));
+
+        member.add(Player.class, bukkit);
+        member.add(EconomyParticipant.class, bukkit);
 
         return member;
     }
