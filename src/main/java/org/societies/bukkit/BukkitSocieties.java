@@ -1,11 +1,6 @@
 package org.societies.bukkit;
 
 import com.google.inject.Inject;
-import net.catharos.bridge.*;
-import org.societies.bridge.*;
-import org.societies.bridge.bukkit.BukkitInventory;
-import org.societies.bridge.bukkit.BukkitItemStack;
-import org.societies.bridge.bukkit.BukkitWorld;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.core.i18n.Dictionary;
@@ -17,6 +12,10 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import org.societies.api.economy.EconomyParticipant;
+import org.societies.bridge.*;
+import org.societies.bridge.bukkit.BukkitInventory;
+import org.societies.bridge.bukkit.BukkitItemStack;
+import org.societies.bridge.bukkit.BukkitWorld;
 import org.societies.member.locale.LocaleProvider;
 
 import java.util.Locale;

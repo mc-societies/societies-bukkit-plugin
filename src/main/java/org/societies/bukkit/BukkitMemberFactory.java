@@ -1,11 +1,11 @@
 package org.societies.bukkit;
 
 import com.google.inject.Inject;
-import org.societies.bridge.Materials;
-import org.societies.bridge.Player;
 import net.catharos.lib.core.i18n.Dictionary;
 import net.milkbowl.vault.economy.Economy;
 import org.societies.api.economy.EconomyParticipant;
+import org.societies.bridge.Materials;
+import org.societies.bridge.Player;
 import org.societies.groups.ExtensionFactory;
 import org.societies.groups.member.*;
 import org.societies.groups.request.DefaultParticipant;

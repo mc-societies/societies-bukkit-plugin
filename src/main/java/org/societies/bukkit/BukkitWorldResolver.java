@@ -2,10 +2,10 @@ package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import org.bukkit.Server;
 import org.societies.bridge.World;
 import org.societies.bridge.WorldResolver;
 import org.societies.bridge.bukkit.BukkitWorld;
-import org.bukkit.Server;
 
 /**
  * Represents a BukkitWorldProvider
