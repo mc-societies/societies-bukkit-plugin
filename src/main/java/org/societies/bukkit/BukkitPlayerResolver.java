@@ -1,11 +1,11 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
-import net.catharos.societies.api.PlayerResolver;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+import org.societies.api.PlayerResolver;
 
 import java.util.UUID;
 

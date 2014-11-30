@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -9,18 +9,13 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
-import net.catharos.bridge.ReloadAction;
-import net.catharos.groups.Member;
-import net.catharos.groups.MemberProvider;
+import org.societies.bridge.ReloadAction;
 import net.catharos.lib.core.command.*;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.shank.logging.LoggingModule;
 import net.catharos.lib.shank.service.ServiceController;
 import net.catharos.lib.shank.service.ServiceModule;
 import net.catharos.lib.shank.service.lifecycle.Lifecycle;
-import net.catharos.societies.SocietiesModule;
-import net.catharos.societies.bukkit.util.LoggerWrapper;
-import net.catharos.societies.economy.DummyEconomy;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.command.CommandSender;
@@ -29,6 +24,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.societies.SocietiesModule;
+import org.societies.bukkit.util.LoggerWrapper;
+import org.societies.economy.DummyEconomy;
+import org.societies.groups.member.Member;
+import org.societies.groups.member.MemberProvider;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -58,7 +58,8 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
     public SocietiesLoader(ClassLoader classLoader, JavaPlugin plugin) {
         this.classLoader = classLoader;
-        this.plugin = plugin;}
+        this.plugin = plugin;
+    }
 
     public void onEnable() {
         logger = new LoggerWrapper(plugin.getLogger());

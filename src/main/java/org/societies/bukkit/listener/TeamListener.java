@@ -1,18 +1,18 @@
-package net.catharos.societies.bukkit.listener;
+package org.societies.bukkit.listener;
 
-import net.catharos.bridge.ChatColor;
-import net.catharos.groups.Group;
-import net.catharos.groups.Member;
-import net.catharos.groups.event.GroupTagEvent;
-import net.catharos.groups.event.MemberJoinEvent;
-import net.catharos.groups.event.MemberLeaveEvent;
-import net.catharos.societies.bukkit.BukkitSocieties;
+import org.societies.bridge.ChatColor;
 import net.engio.mbassy.listener.Handler;
 import net.engio.mbassy.listener.Invoke;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+import org.societies.bukkit.BukkitSocieties;
+import org.societies.groups.event.GroupTagEvent;
+import org.societies.groups.event.MemberJoinEvent;
+import org.societies.groups.event.MemberLeaveEvent;
+import org.societies.groups.group.Group;
+import org.societies.groups.member.Member;
 
 /**
  * Represents a TeamListener

@@ -1,10 +1,10 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.catharos.societies.api.NameProvider;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.societies.api.NameProvider;
 
 import java.util.UUID;
 

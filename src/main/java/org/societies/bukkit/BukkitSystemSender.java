@@ -1,9 +1,9 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
+import org.societies.bridge.ChatColor;
 import net.catharos.lib.core.command.SystemSender;
 import net.catharos.lib.core.i18n.Dictionary;
-import net.catharos.bridge.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 import java.text.MessageFormat;

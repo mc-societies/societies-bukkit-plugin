@@ -1,12 +1,7 @@
-package net.catharos.societies.bukkit.listener;
+package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.catharos.groups.Group;
-import net.catharos.groups.Member;
-import net.catharos.groups.MemberProvider;
-import net.catharos.groups.Relation;
-import net.catharos.groups.setting.Setting;
 import net.catharos.lib.shank.config.ConfigSetting;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,6 +12,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.Nullable;
+import org.societies.groups.Relation;
+import org.societies.groups.group.Group;
+import org.societies.groups.member.Member;
+import org.societies.groups.member.MemberProvider;
+import org.societies.groups.setting.Setting;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

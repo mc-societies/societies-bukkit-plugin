@@ -1,20 +1,20 @@
-package net.catharos.societies.bukkit.listener;
+package org.societies.bukkit.listener;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
-import net.catharos.groups.Group;
-import net.catharos.groups.Member;
-import net.catharos.groups.MemberProvider;
 import net.catharos.lib.shank.logging.InjectLogger;
-import net.catharos.societies.group.OnlineGroupCache;
-import net.catharos.societies.member.OnlineMemberCache;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.societies.group.OnlineGroupCache;
+import org.societies.groups.group.Group;
+import org.societies.groups.member.Member;
+import org.societies.groups.member.MemberProvider;
+import org.societies.member.OnlineMemberCache;
 
 import javax.annotation.Nullable;
 

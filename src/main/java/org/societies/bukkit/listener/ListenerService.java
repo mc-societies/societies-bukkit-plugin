@@ -1,7 +1,6 @@
-package net.catharos.societies.bukkit.listener;
+package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import net.catharos.groups.event.EventController;
 import net.catharos.lib.shank.logging.InjectLogger;
 import net.catharos.lib.shank.service.AbstractService;
 import net.catharos.lib.shank.service.lifecycle.LifecycleContext;
@@ -9,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.societies.groups.event.EventController;
 
 /**
  * Represents a ListenerService

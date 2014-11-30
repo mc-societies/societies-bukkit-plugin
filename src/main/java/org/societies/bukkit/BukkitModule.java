@@ -1,26 +1,26 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.TypeLiteral;
 import gnu.trove.set.hash.THashSet;
-import net.catharos.bridge.ReloadAction;
-import net.catharos.bridge.Scheduler;
-import net.catharos.bridge.World;
-import net.catharos.bridge.WorldResolver;
-import net.catharos.bridge.bukkit.BukkitMaterial;
-import net.catharos.bridge.bukkit.BukkitWorld;
-import net.catharos.groups.MemberFactory;
+import org.societies.bridge.ReloadAction;
+import org.societies.bridge.Scheduler;
+import org.societies.bridge.World;
+import org.societies.bridge.WorldResolver;
+import org.societies.bridge.bukkit.BukkitMaterial;
+import org.societies.bridge.bukkit.BukkitWorld;
 import net.catharos.lib.core.command.SystemSender;
 import net.catharos.lib.shank.service.AbstractServiceModule;
-import net.catharos.societies.api.NameProvider;
-import net.catharos.societies.api.PlayerResolver;
-import net.catharos.societies.bukkit.listener.ListenerService;
-import net.catharos.societies.converter.ConverterModule;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.societies.api.NameProvider;
+import org.societies.api.PlayerResolver;
+import org.societies.bukkit.listener.ListenerService;
+import org.societies.converter.ConverterModule;
+import org.societies.groups.member.MemberFactory;
 
 import java.util.Collection;
 
@@ -55,14 +55,14 @@ public class BukkitModule extends AbstractServiceModule {
         bind(WorldResolver.class).to(BukkitWorldResolver.class);
 
 
-        bind(Scheduler.class).to(net.catharos.bridge.bukkit.BukkitScheduler.class);
+        bind(Scheduler.class).to(org.societies.bridge.bukkit.BukkitScheduler.class);
 
         bind(MemberFactory.class).to(BukkitMemberFactory.class);
 
 
         Material[] values = Material.values();
 
-        THashSet<net.catharos.bridge.Material> materials = new THashSet<net.catharos.bridge.Material>(values.length);
+        THashSet<org.societies.bridge.Material> materials = new THashSet<org.societies.bridge.Material>(values.length);
 
         for (Material value : values) {
             materials.add(new BukkitMaterial(value));
@@ -76,7 +76,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(SystemSender.class).to(BukkitSystemSender.class);
 
-        bind(new TypeLiteral<Collection<net.catharos.bridge.Material>>() {}).toInstance(materials);
+        bind(new TypeLiteral<Collection<org.societies.bridge.Material>>() {}).toInstance(materials);
 
         install(new ConverterModule(server));
         bindService().to(ConverterService.class);

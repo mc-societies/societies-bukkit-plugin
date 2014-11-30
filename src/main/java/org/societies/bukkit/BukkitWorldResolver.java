@@ -1,10 +1,10 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.catharos.bridge.World;
-import net.catharos.bridge.WorldResolver;
-import net.catharos.bridge.bukkit.BukkitWorld;
+import org.societies.bridge.World;
+import org.societies.bridge.WorldResolver;
+import org.societies.bridge.bukkit.BukkitWorld;
 import org.bukkit.Server;
 
 /**

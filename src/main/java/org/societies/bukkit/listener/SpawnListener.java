@@ -1,15 +1,11 @@
-package net.catharos.societies.bukkit.listener;
+package org.societies.bukkit.listener;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.catharos.bridge.Location;
-import net.catharos.groups.Group;
-import net.catharos.groups.Member;
-import net.catharos.groups.MemberProvider;
-import net.catharos.groups.setting.Setting;
+import org.societies.bridge.Location;
 import net.catharos.lib.shank.config.ConfigSetting;
 import net.catharos.lib.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.societies.groups.group.Group;
+import org.societies.groups.member.Member;
+import org.societies.groups.member.MemberProvider;
+import org.societies.groups.setting.Setting;
 
 /**
  * Represents a SpawnListener
@@ -60,7 +60,7 @@ public class SpawnListener implements Listener {
 
 
                     if (location != null) {
-                        result.get(net.catharos.bridge.Player.class).teleport(location);
+                        result.get(org.societies.bridge.Player.class).teleport(location);
                     }
                 }
 

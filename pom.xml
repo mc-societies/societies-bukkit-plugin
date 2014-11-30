@@ -4,19 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.catharos.societies</groupId>
+    <groupId>org.societies</groupId>
     <artifactId>societies-bukkit-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
-            <groupId>net.catharos.societies</groupId>
+            <groupId>org.societies</groupId>
             <artifactId>societies</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>net.catharos.bridge</groupId>
+            <groupId>org.societies.bridge</groupId>
             <artifactId>bukkit-bridge</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>net.catharos.societies</groupId>
+            <groupId>org.societies</groupId>
             <artifactId>societies-converter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -101,17 +101,17 @@
                                     <include>org.apache.logging.log4j:log4j-core</include>
                                     <include>org.apache.logging.log4j:log4j-api</include>
 
-                                    <include>net.catharos.bridge:bridge</include>
-                                    <include>net.catharos.bridge:bukkit-bridge</include>
+                                    <include>org.societies.bridge:bridge</include>
+                                    <include>org.societies.bridge:bukkit-bridge</include>
 
-                                    <include>net.catharos.lib:lib-groups</include>
+                                    <include>org.societies:lib-groups</include>
                                     <include>net.catharos.lib:lib-core</include>
-                                    <include>net.catharos.lib:lib-database</include>
-                                    <include>net.catharos.lib:shank</include>
+                                    <include>org.societies:lib-database</include>
+                                    <include>org.shank:shank</include>
 
-                                    <include>net.catharos.societies:societies-api</include>
-                                    <include>net.catharos.societies:societies</include>
-                                    <include>net.catharos.societies:societies-converter</include>
+                                    <include>org.societies:societies-api</include>
+                                    <include>org.societies:societies</include>
+                                    <include>org.societies:societies-converter</include>
 
                                     <include>org.flywaydb:flyway-core</include>
 
@@ -123,11 +123,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.google.common</pattern>
-                                    <shadedPattern>net.catharos.societies.libs.guava</shadedPattern>
+                                    <shadedPattern>org.societies.libs.guava</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.apache.logging.log4j</pattern>
-                                    <shadedPattern>net.catharos.societies.libs.log4j</shadedPattern>
+                                    <shadedPattern>org.societies.libs.log4j</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

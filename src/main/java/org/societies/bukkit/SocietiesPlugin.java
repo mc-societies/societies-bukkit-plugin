@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

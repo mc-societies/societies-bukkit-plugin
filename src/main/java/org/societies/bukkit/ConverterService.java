@@ -1,9 +1,9 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import net.catharos.lib.shank.service.AbstractService;
 import net.catharos.lib.shank.service.lifecycle.LifecycleContext;
-import net.catharos.societies.converter.Converter;
+import org.societies.converter.Converter;
 
 /**
  * Represents a ConverterService

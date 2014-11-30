@@ -1,15 +1,14 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import net.catharos.bridge.*;
-import net.catharos.bridge.bukkit.BukkitInventory;
-import net.catharos.bridge.bukkit.BukkitItemStack;
-import net.catharos.bridge.bukkit.BukkitWorld;
+import org.societies.bridge.*;
+import org.societies.bridge.bukkit.BukkitInventory;
+import org.societies.bridge.bukkit.BukkitItemStack;
+import org.societies.bridge.bukkit.BukkitWorld;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.core.i18n.Dictionary;
-import net.catharos.societies.api.economy.EconomyParticipant;
-import net.catharos.societies.member.locale.LocaleProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -17,6 +16,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+import org.societies.api.economy.EconomyParticipant;
+import org.societies.member.locale.LocaleProvider;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -24,7 +25,7 @@ import java.util.UUID;
 /**
  * Represents a SocietyMember
  */
-public class BukkitSocieties implements EconomyParticipant, net.catharos.bridge.Player, Sender {
+public class BukkitSocieties implements EconomyParticipant, org.societies.bridge.Player, Sender {
 
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;

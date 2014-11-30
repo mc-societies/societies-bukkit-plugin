@@ -1,4 +1,4 @@
-package net.catharos.societies.bukkit;
+package org.societies.bukkit;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
