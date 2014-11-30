@@ -60,7 +60,6 @@ public class JoinListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Member member = memberCache.clear(event.getPlayer().getUniqueId());
 
-
         if (member != null) {
 
             member.activate();
