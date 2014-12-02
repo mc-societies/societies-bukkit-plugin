@@ -7,7 +7,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.societies.bridge.ChatColor;
-import org.societies.bukkit.BukkitSocieties;
+import org.societies.bukkit.BukkitSocietiesMember;
 import org.societies.groups.event.GroupTagEvent;
 import org.societies.groups.event.MemberJoinEvent;
 import org.societies.groups.event.MemberLeaveEvent;
@@ -40,7 +40,7 @@ public class TeamListener {
     }
 
     public void setupMember(Member member) {
-        OfflinePlayer player = ((BukkitSocieties) member).toOfflinePlayer();
+        OfflinePlayer player = ((BukkitSocietiesMember) member).toOfflinePlayer();
 
         Group group = member.getGroup();
 
@@ -53,7 +53,7 @@ public class TeamListener {
     }
 
     public void removeMember(Member member, Group group) {
-        OfflinePlayer player = ((BukkitSocieties) member).toOfflinePlayer();
+        OfflinePlayer player = ((BukkitSocietiesMember) member).toOfflinePlayer();
 
         Team team = getTeam(group);
         team.removePlayer(player);

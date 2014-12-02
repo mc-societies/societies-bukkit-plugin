@@ -1,17 +1,18 @@
 package org.societies.bukkit;
 
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import net.catharos.lib.core.command.Command;
 import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.core.i18n.Dictionary;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import org.societies.api.economy.EconomyParticipant;
+import org.societies.api.economy.EconomyResponse;
 import org.societies.bridge.*;
 import org.societies.bridge.bukkit.BukkitInventory;
 import org.societies.bridge.bukkit.BukkitItemStack;
@@ -24,7 +25,7 @@ import java.util.UUID;
 /**
  * Represents a SocietyMember
  */
-public class BukkitSocieties implements EconomyParticipant, org.societies.bridge.Player, Sender {
+public class BukkitSocietiesMember implements EconomyParticipant, org.societies.bridge.Player, Sender {
 
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;
@@ -34,7 +35,10 @@ public class BukkitSocieties implements EconomyParticipant, org.societies.bridge
     private final UUID uuid;
 
     @Inject
-    public BukkitSocieties(LocaleProvider localeProvider, Dictionary<String> directory, Economy economy, Materials materials, UUID uuid) {
+    public BukkitSocietiesMember(@Assisted UUID uuid,
+                                 LocaleProvider localeProvider,
+                                 Dictionary<String> directory,
+                                 Economy economy, Materials materials) {
         this.localeProvider = localeProvider;
         this.directory = directory;
         this.economy = economy;
@@ -125,12 +129,14 @@ public class BukkitSocieties implements EconomyParticipant, org.societies.bridge
 
     @Override
     public EconomyResponse withdraw(double amount) {
-        return economy.withdrawPlayer(toPlayer(), amount);
+        net.milkbowl.vault.economy.EconomyResponse response = economy.withdrawPlayer(toPlayer(), amount);
+        return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
     }
 
     @Override
     public EconomyResponse deposit(double amount) {
-        return economy.depositPlayer(toPlayer(), amount);
+        net.milkbowl.vault.economy.EconomyResponse response = economy.depositPlayer(toPlayer(), amount);
+        return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
     }
 
     @Override

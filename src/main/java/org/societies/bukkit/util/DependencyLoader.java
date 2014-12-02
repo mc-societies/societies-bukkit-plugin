@@ -1,4 +1,4 @@
-package org.societies.bukkit;
+package org.societies.bukkit.util;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;

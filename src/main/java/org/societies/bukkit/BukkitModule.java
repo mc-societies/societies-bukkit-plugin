@@ -1,8 +1,11 @@
 package org.societies.bukkit;
 
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.multibindings.Multibinder;
 import gnu.trove.set.hash.THashSet;
 import net.catharos.lib.core.command.SystemSender;
+import net.catharos.lib.core.command.sender.Sender;
 import net.catharos.lib.shank.service.AbstractServiceModule;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
@@ -18,11 +21,14 @@ import org.societies.bridge.World;
 import org.societies.bridge.WorldResolver;
 import org.societies.bridge.bukkit.BukkitMaterial;
 import org.societies.bridge.bukkit.BukkitWorld;
+import org.societies.bukkit.converter.ConverterService;
 import org.societies.bukkit.listener.ListenerService;
 import org.societies.converter.ConverterModule;
-import org.societies.groups.member.MemberFactory;
+import org.societies.groups.ExtensionFactory;
+import org.societies.groups.ExtensionRoller;
 
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * Represents a BukkitModule
@@ -57,9 +63,6 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(Scheduler.class).to(org.societies.bridge.bukkit.BukkitScheduler.class);
 
-        bind(MemberFactory.class).to(BukkitMemberFactory.class);
-
-
         Material[] values = Material.values();
 
         THashSet<org.societies.bridge.Material> materials = new THashSet<org.societies.bridge.Material>(values.length);
@@ -82,5 +85,17 @@ public class BukkitModule extends AbstractServiceModule {
         bindService().to(ConverterService.class);
 
         bind(ClassLoader.class).toInstance(loader.getClassLoader());
+
+        Multibinder<ExtensionRoller> extensions = Multibinder.newSetBinder(binder(), ExtensionRoller.class);
+
+        install(new FactoryModuleBuilder()
+                .implement(Sender.class, BukkitSocietiesMember.class)
+                .build(new TypeLiteral<ExtensionFactory<Sender, UUID>>() {}));
+
+        install(new FactoryModuleBuilder()
+                .implement(BukkitSocietiesMember.class, BukkitSocietiesMember.class)
+                .build(new TypeLiteral<ExtensionFactory<BukkitSocietiesMember, UUID>>() {}));
+
+        extensions.addBinding().to(BukkitExtensionRoller.class);
     }
 }

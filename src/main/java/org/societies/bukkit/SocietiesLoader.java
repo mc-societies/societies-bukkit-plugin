@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.societies.SocietiesModule;
 import org.societies.bridge.ReloadAction;
 import org.societies.bukkit.util.LoggerWrapper;
-import org.societies.economy.DummyEconomy;
+import org.societies.bukkit.economy.DummyEconomy;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
 

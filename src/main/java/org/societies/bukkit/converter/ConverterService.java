@@ -1,4 +1,4 @@
-package org.societies.bukkit;
+package org.societies.bukkit.converter;
 
 import com.google.inject.Inject;
 import net.catharos.lib.shank.service.AbstractService;
