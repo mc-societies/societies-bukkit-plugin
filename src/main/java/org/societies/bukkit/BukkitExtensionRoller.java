@@ -10,8 +10,8 @@ import org.societies.groups.ExtensionRoller;
 import java.util.UUID;
 
 /**
-* Represents a BukkitExtensionRoller
-*/
+ * Represents a BukkitExtensionRoller
+ */
 class BukkitExtensionRoller implements ExtensionRoller {
 
     private final ExtensionFactory<BukkitSocietiesMember, UUID> bukkitFactory;
