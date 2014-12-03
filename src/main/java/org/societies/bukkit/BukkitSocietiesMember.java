@@ -169,6 +169,9 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
 
     @Override
     public boolean teleport(Location location) {
+        if (location instanceof Location.InvalidLocation) {
+            throw new RuntimeException("Invalid location!");
+        }
         return toPlayerNotNull().teleport(BukkitWorld.toBukkitLocation(getServer(), location));
     }
 
