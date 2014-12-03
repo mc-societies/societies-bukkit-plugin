@@ -26,9 +26,9 @@
                 <exclude>org.societies:lib-database</exclude>
                 <exclude>org.shank:shank</exclude>
 
-                <exclude>net.catharos.societies:societies-api</exclude>
-                <exclude>net.catharos.societies:societies</exclude>
-                <exclude>net.catharos.societies:societies-converter</exclude>
+                <exclude>org.societies:societies-api</exclude>
+                <exclude>org.societies:societies</exclude>
+                <exclude>org.societies:societies-converter</exclude>
 
                 <exclude>org.apache.commons:commons-compress</exclude>
                 <exclude>com.google.guava:guava</exclude>
