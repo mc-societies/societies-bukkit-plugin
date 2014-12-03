@@ -1,8 +1,8 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import net.catharos.lib.shank.config.ConfigSetting;
-import net.catharos.lib.shank.logging.InjectLogger;
+import org.shank.config.ConfigSetting;
+import org.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

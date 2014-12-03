@@ -2,7 +2,7 @@ package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import net.catharos.lib.shank.config.ConfigSetting;
+import org.shank.config.ConfigSetting;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

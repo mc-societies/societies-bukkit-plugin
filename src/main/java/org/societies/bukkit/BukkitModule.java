@@ -6,7 +6,7 @@ import com.google.inject.multibindings.Multibinder;
 import gnu.trove.set.hash.THashSet;
 import net.catharos.lib.core.command.SystemSender;
 import net.catharos.lib.core.command.sender.Sender;
-import net.catharos.lib.shank.service.AbstractServiceModule;
+import org.shank.service.AbstractServiceModule;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
 import org.bukkit.Server;
