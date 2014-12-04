@@ -28,7 +28,7 @@ public class SocietiesPlugin extends JavaPlugin {
             String libraries = System.getProperty("societies-libraries-url");
 
             if (libraries == null) {
-                libraries = "http://dev.bukkit.org/media/files/831/853/societies-bukkit-plugin-libraries.jar";
+                libraries = "http://dev.bukkit.org/media/files/836/988/societies-bukkit-plugin-libraries.jar";
             }
 
             new DependencyLoader(getLogger()).loadDependencies(
