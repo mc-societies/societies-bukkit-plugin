@@ -11,10 +11,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import net.catharos.lib.core.command.*;
 import net.catharos.lib.core.command.sender.Sender;
-import org.shank.logging.LoggingModule;
-import org.shank.service.ServiceController;
-import org.shank.service.ServiceModule;
-import org.shank.service.lifecycle.Lifecycle;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.command.CommandSender;
@@ -23,6 +19,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.shank.logging.LoggingModule;
+import org.shank.service.ServiceController;
+import org.shank.service.ServiceModule;
+import org.shank.service.lifecycle.Lifecycle;
 import org.societies.SocietiesModule;
 import org.societies.bridge.ReloadAction;
 import org.societies.bukkit.economy.DummyEconomy;
@@ -73,6 +73,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
             economy = economyProvider.getProvider();
         } else {
             economy = new DummyEconomy();
+            plugin.getLogger().info("You need to install Vault to use the economy features");
         }
 
         File dir = plugin.getDataFolder();
@@ -100,12 +101,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
 
         serviceController.invoke(Lifecycle.STARTING);
-
-//        try {
-//            printPermissions(new PrintStream(new FileOutputStream("fuck")));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void printPermissions(final PrintStream stream) {
@@ -167,6 +162,17 @@ public class SocietiesLoader implements Listener, ReloadAction {
         } else {
             commands.execute(systemSender, command.getName(), args);
         }
+
+
+//        String[] commands = {
+//                "/s create test tes",
+//                "/s profile",
+//                "/s lookup",
+//                "/s profile -society tes",
+//                "/s vitals",
+//                "/s disprove tes",
+//                "/s vitals",
+//        };
 
 
         return true;
