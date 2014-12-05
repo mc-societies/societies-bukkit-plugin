@@ -26,9 +26,9 @@ import org.shank.service.lifecycle.Lifecycle;
 import org.societies.SocietiesModule;
 import org.societies.bridge.ReloadAction;
 import org.societies.bukkit.economy.DummyEconomy;
-import org.societies.bukkit.util.LoggerWrapper;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
+import org.societies.util.LoggerWrapper;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -73,12 +73,12 @@ public class SocietiesLoader implements Listener, ReloadAction {
             economy = economyProvider.getProvider();
         } else {
             economy = new DummyEconomy();
-            plugin.getLogger().info("You need to install Vault to use the economy features");
+            logger.info("You need to install Vault to use the economy features");
         }
 
         File dir = plugin.getDataFolder();
 
-        plugin.getLogger().info("Reloading AK-47... Please wait patiently!");
+        logger.info("Reloading AK-47... Please wait patiently!");
 
         injector = Guice.createInjector(
                 new ServiceModule(),
@@ -87,7 +87,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
                 new BukkitModule(plugin.getServer(), plugin, this, economy)
         );
 
-        plugin.getLogger().info("Well done.");
+        logger.info("Well done.");
 
         serviceController = injector.getInstance(ServiceController.class);
 
@@ -132,7 +132,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         serviceController.invoke(Lifecycle.STOPPING);
 
-        plugin.getLogger().info("Engines and weapons unloaded and locked!");
+        logger.info("Engines and weapons unloaded and locked!");
     }
 
 

@@ -3,7 +3,7 @@ package org.societies.bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.societies.bukkit.util.DependencyLoader;
+import org.societies.util.DependencyLoader;
 
 import java.io.File;
 import java.io.IOException;
