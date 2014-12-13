@@ -104,13 +104,13 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
     public void printPermissions(final PrintStream stream) {
-        commands.iterate(new FormatCommandIterator<Sender>("/", " - ") {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " ?") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
                 stream.println("   " + command.getPermission() + ": true");
                 stream.println("     description: " + "Allows you to use the command \"" + format + "\"");
             }
-        });
+        }, true);
     }
 
     public void onDisable() {
