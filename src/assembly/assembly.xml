@@ -18,6 +18,8 @@
             <unpack>false</unpack>
 
             <excludes>
+                <exclude>org.reflections:reflections</exclude>
+
                 <exclude>org.societies.bridge:bridge</exclude>
                 <exclude>org.societies.bridge:bukkit-bridge</exclude>
 
@@ -42,19 +44,22 @@
                 <exclude>org.jooq:jooq-meta</exclude>
                 <exclude>mysql:mysql-connector-java</exclude>
 
+                <!--Classpath fail-->
                 <exclude>org.flywaydb:flyway-core</exclude>
 
-                <exclude>org.societies:societies-bukkit-plugin</exclude>
-
+                <!--Bukkit-->
                 <exclude>org.bukkit:bukkit</exclude>
                 <exclude>org.bukkit:craftbukkit</exclude>
                 <exclude>org.spigotmc:spigot-api</exclude>
 
+                <!--SimpleClans-->
                 <exclude>com.p000ison.dev.simpleclans2:SimpleClans2</exclude>
                 <exclude>net.sacredlabyrinth.phaed.simpleclans:SimpleClans</exclude>
 
+                <!--Ony compile time-->
                 <exclude>org.jooq:jooq-codegen</exclude>
 
+                <!--Tests-->
                 <exclude>org.jukito:jukito</exclude>
                 <exclude>org.hamcrest:*</exclude>
                 <exclude>junit:junit</exclude>

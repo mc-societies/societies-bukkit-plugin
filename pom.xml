@@ -28,12 +28,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>1.9</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.societies</groupId>
             <artifactId>societies-converter</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -83,6 +77,157 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <profiles>
+        <profile>
+            <id>extern</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <minimizeJar>true</minimizeJar>
+                                    <artifactSet>
+                                        <includes>
+                                            <include>org.apache.logging.log4j:log4j-core</include>
+                                            <include>org.apache.logging.log4j:log4j-api</include>
+
+                                            <include>org.societies.bridge:bridge</include>
+                                            <include>org.societies.bridge:bukkit-bridge</include>
+
+                                            <include>org.societies:lib-groups</include>
+                                            <include>net.catharos.lib:lib-core</include>
+                                            <include>org.societies:lib-database</include>
+                                            <include>org.shank:shank</include>
+
+                                            <include>org.societies:societies-api</include>
+                                            <include>org.societies:societies</include>
+                                            <include>org.societies:societies-converter</include>
+
+                                            <include>org.flywaydb:flyway-core</include>
+
+                                            <include>org.apache.commons:commons-compress</include>
+                                            <include>com.google.guava:guava</include>
+                                            <include>com.google.inject**:*</include>
+                                        </includes>
+                                    </artifactSet>
+                                    <relocations>
+                                        <relocation>
+                                            <pattern>com.google.common</pattern>
+                                            <shadedPattern>org.societies.libs.guava</shadedPattern>
+                                        </relocation>
+                                        <relocation>
+                                            <pattern>org.apache.logging.log4j</pattern>
+                                            <shadedPattern>org.societies.libs.log4j</shadedPattern>
+                                        </relocation>
+                                    </relocations>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <configuration>
+                            <descriptor>src/assembly/assembly.xml</descriptor>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>shaded</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>2.3</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <minimizeJar>true</minimizeJar>
+                                    <artifactSet>
+                                        <excludes>
+                                            <exclude>org.bukkit:bukkit</exclude>
+                                            <exclude>org.bukkit:craftbukkit</exclude>
+                                            <exclude>org.spigotmc:spigot-api</exclude>
+
+                                            <!--SimpleClans-->
+                                            <exclude>com.p000ison.dev.simpleclans2:SimpleClans2</exclude>
+                                            <exclude>net.sacredlabyrinth.phaed.simpleclans:SimpleClans</exclude>
+
+                                            <!--Ony compile time-->
+                                            <exclude>org.jooq:jooq-codegen</exclude>
+
+                                            <!--Tests-->
+                                            <exclude>org.jukito:jukito</exclude>
+                                            <exclude>org.hamcrest:*</exclude>
+                                            <exclude>junit:junit</exclude>
+                                            <exclude>org.mockito:mockito*</exclude>
+                                        </excludes>
+                                    </artifactSet>
+                                    <relocations>
+                                        <relocation>
+                                            <pattern>com.google.common</pattern>
+                                            <shadedPattern>org.societies.libs.guava</shadedPattern>
+                                        </relocation>
+                                        <relocation>
+                                            <pattern>org.apache.logging.log4j</pattern>
+                                            <shadedPattern>org.societies.libs.log4j</shadedPattern>
+                                        </relocation>
+                                    </relocations>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <configuration>
+                            <descriptor>src/assembly/assembly.xml</descriptor>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -93,97 +238,6 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <minimizeJar>true</minimizeJar>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.apache.logging.log4j:log4j-core</include>
-                                    <include>org.apache.logging.log4j:log4j-api</include>
-
-                                    <include>org.societies.bridge:bridge</include>
-                                    <include>org.societies.bridge:bukkit-bridge</include>
-
-                                    <include>org.societies:lib-groups</include>
-                                    <include>net.catharos.lib:lib-core</include>
-                                    <include>org.societies:lib-database</include>
-                                    <include>org.shank:shank</include>
-
-                                    <include>org.societies:societies-api</include>
-                                    <include>org.societies:societies</include>
-                                    <include>org.societies:societies-converter</include>
-
-                                    <include>org.flywaydb:flyway-core</include>
-
-                                    <include>org.apache.commons:commons-compress</include>
-                                    <include>com.google.guava:guava</include>
-                                    <include>com.google.inject**:*</include>
-                                </includes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.google.common</pattern>
-                                    <shadedPattern>org.societies.libs.guava</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.logging.log4j</pattern>
-                                    <shadedPattern>org.societies.libs.log4j</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--<plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.3</version>
-                <executions>
-                    <execution>
-                        <id>attach-distribution</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>target/${pom.artifactId}-${pom.version}-libraries.tar.gz</file>
-                                    <type>tar.gz</type>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <descriptor>src/assembly/assembly.xml</descriptor>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -199,6 +253,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
