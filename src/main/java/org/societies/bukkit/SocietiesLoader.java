@@ -110,8 +110,8 @@ public class SocietiesLoader implements Listener, ReloadAction {
                 if (command.getPermission() == null) {
                     return;
                 }
-                stream.println(" " + command.getPermission() + ": true");
-                stream.println("   description: " + "Allows you to use the command \"" + format + "\"");
+                stream.println("  " + command.getPermission() + ":");
+                stream.println("    description: " + "\"Allows you to use the command \'" + format + "\'\"");
             }
         }, true);
     }
