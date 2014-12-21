@@ -67,96 +67,100 @@ permissions:
       societies.moderator: true
       societies.reload: true
       societies.backup: true
-  societies.create:
-    description: Allows you to use the command "/society create [name] [tag]"
-  societies.tag:
-    description: Allows you to use the command "/society tag [newTag]"
-  societies.profile:
-    description: Allows you to use the command "/society profile [--society]"
-  societies.lookup:
-    description: Allows you to use the command "/society lookup [--member]"
-  societies.coords:
-    description: Allows you to use the command "/society coords [--page]"
-  societies.vitals:
-    description: Allows you to use the command "/society vitals [--page]"
-  societies.roster:
-    description: Allows you to use the command "/society roster [--page]"
-  societies.list:
-    description: Allows you to use the command "/society list [--page]"
-  societies.trust:
-    description: Allows you to use the command "/society trust [--member]"
-  societies.distrust:
-    description: Allows you to use the command "/society distrust [--member]"
-  societies.promote:
-    description: Allows you to use the command "/society promote [--member]"
-  societies.demote:
-    description: Allows you to use the command "/society demote [--member]"
-  societies.join:
-    description: Allows you to use the command "/society join [society]"
-  societies.invite:
-    description: Allows you to use the command "/society invite [member]"
-  societies.kick:
-    description: Allows you to use the command "/society kick [member]"
-  societies.alliances:
-    description: Allows you to use the command "/society alliances"
-  societies.rivalries:
-    description: Allows you to use the command "/society rivalries"
-  societies.leave:
-    description: Allows you to use the command "/society leave"
-  societies.vote.accept:
-    description: Allows you to use the command "/society accept"
-  societies.vote.deny:
-    description: Allows you to use the command "/society deny"
-  societies.vote.abstain:
-    description: Allows you to use the command "/society abstain"
-  societies.vote.cancel:
-    description: Allows you to use the command "/society cancel"
-  societies.home.set:
-    description: Allows you to use the command "/society home set [--location]"
-  societies.home.regroup:
-    description: Allows you to use the command "/society home regroup"
-  societies.home.remove:
-    description: Allows you to use the command "/society home remove"
-  societies.home.teleport:
-    description: Allows you to use the command "/society home"
-  societies.rank.create:
-    description: Allows you to use the command "/society rank create [name] [--priority]"
-  societies.rank.remove:
-    description: Allows you to use the command "/society rank remove [name]"
-  societies.rank.list:
-    description: Allows you to use the command "/society rank list [--page]"
-  societies.rank.assign:
-    description: Allows you to use the command "/society rank assign [member] [rank]"
-  societies.rank.deassign:
-    description: Allows you to use the command "/society rank deassign [rank]"
-  societies.rank.rules.assign:
-    description: Allows you to use the command "/society rank rules assign [rank] [rule]"
-  societies.rank.rules.remove:
-    description: Allows you to use the command "/society rank rules remove [rank] [rule]"
-  societies.rank.rules.list:
-    description: Allows you to use the command "/society rank rules list [rank]"
-  societies.allies.add:
-    description: Allows you to use the command "/society allies add [society]"
-  societies.allies.remove:
-    description: Allows you to use the command "/society allies remove [society]"
-  societies.allies.list:
-    description: Allows you to use the command "/society allies"
-  societies.rivals.add:
-    description: Allows you to use the command "/society rivals create [society]"
-  societies.rivals.remove:
-    description: Allows you to use the command "/society rivals remove [society]"
-  societies.rivals.list:
-    description: Allows you to use the command "/society rivals"
-  societies.ff:
-    description: Allows you to use the command "/society ff"
-  societies.group-ff:
-    description: Allows you to use the command "/society groupff"
-  societies.verify:
-    description: Allows you to use the command "/society verify [society]"
-  societies.disprove:
-    description: Allows you to use the command "/society disprove [society]"
-  societies.reload:
-    description: Allows you to use the command "/society reload"
-  societies.backup:
-    description: Allows you to use the command "/society backup [file]"
+ societies.create: true
+   description: Allows you to use the command "/societies create [name] [tag] - Creates a new society"
+ societies.list: true
+   description: Allows you to use the command "/societies list [--verified] [--page] - Lists all societies"
+ societies.profile: true
+   description: Allows you to use the command "/societies profile [--society] - View your society' profile"
+ societies.lookup: true
+   description: Allows you to use the command "/societies lookup [--member] - Lookup your info"
+ societies.join: true
+   description: Allows you to use the command "/societies join [society] - Request to join a society"
+ societies.invite: true
+   description: Allows you to use the command "/societies invite [member] - Invite a player"
+ societies.coords: true
+   description: Allows you to use the command "/societies coords [--page] - View your member's coordinates"
+ societies.vitals: true
+   description: Allows you to use the command "/societies vitals [--page] - View your member's vitals"
+ societies.roster: true
+   description: Allows you to use the command "/societies roster [--page] - View your society's member list"
+ societies.trust: true
+   description: Allows you to use the command "/societies trust [--member] - Trust a society"
+ societies.distrust: true
+   description: Allows you to use the command "/societies distrust [--member] - Distrust a society"
+ societies.promote: true
+   description: Allows you to use the command "/societies promote [--member] - Promote a member"
+ societies.demote: true
+   description: Allows you to use the command "/societies demote [--member] - Demote a member"
+ societies.alliances: true
+   description: Allows you to use the command "/societies alliances - View all alliances"
+ societies.rivalries: true
+   description: Allows you to use the command "/societies rivalries - View all rivalries"
+ societies.ff: true
+   description: Allows you to use the command "/societies ff - Toggle personal friendly fire"
+ societies.group-ff: true
+   description: Allows you to use the command "/societies groupff - Toggle your society' friendly fire"
+ societies.tag: true
+   description: Allows you to use the command "/societies tag [newTag] - Modify your society's tag"
+ societies.kick: true
+   description: Allows you to use the command "/societies kick [member] - Kick a society member"
+ societies.leave: true
+   description: Allows you to use the command "/societies leave - Leave a society"
+ societies.allies.add: true
+   description: Allows you to use the command "/societies allies add [society] - Initiate an alliance"
+ societies.allies.remove: true
+   description: Allows you to use the command "/societies allies remove [society] - Cancel an alliance"
+ societies.allies.list: true
+   description: Allows you to use the command "/societies allies ? - Manage your alliances"
+ societies.rivals.add: true
+   description: Allows you to use the command "/societies rivals create [society] - Initiate a rivalry"
+ societies.rivals.remove: true
+   description: Allows you to use the command "/societies rivals remove [society] - Cancel a rivalry"
+ societies.rivals.list: true
+   description: Allows you to use the command "/societies rivals ? - Manage your rivalries"
+ societies.home.set: true
+   description: Allows you to use the command "/societies home set [--location] - Set your society's home"
+ societies.home.regroup: true
+   description: Allows you to use the command "/societies home regroup - Regroup your society"
+ societies.home.teleport: true
+   description: Allows you to use the command "/societies home ? - Teleport to your society's home"
+ societies.rank.create: true
+   description: Allows you to use the command "/societies rank create [name] [--priority] - Create a rank"
+ societies.rank.remove: true
+   description: Allows you to use the command "/societies rank remove [name] - Remove a rank"
+ societies.rank.list: true
+   description: Allows you to use the command "/societies rank list [--page] - List all ranks"
+ societies.rank.assign: true
+   description: Allows you to use the command "/societies rank assign [member] [rank] - Assign a member to a rank"
+ societies.rank.deassign: true
+   description: Allows you to use the command "/societies rank deassign [member] [rank] - De-assign a member from a rank"
+ societies.rank.rules.assign: true
+   description: Allows you to use the command "/societies rank rules assign [rank] [rule] - Assign a rule to a rank"
+ societies.rank.rules.remove: true
+   description: Allows you to use the command "/societies rank rules remove [rank] [rule] - Remove a rule from a rank"
+ societies.rank.rules.list: true
+   description: Allows you to use the command "/societies rank rules list [rank] - List all rules of a rank"
+ societies.balance: true
+   description: Allows you to use the command "/societies balance - View your society's balance"
+ societies.deposit: true
+   description: Allows you to use the command "/societies deposit [amount] - Deposit some money"
+ societies.withdraw: true
+   description: Allows you to use the command "/societies withdraw [amount] - Withdraw some money"
+ societies.vote.accept: true
+   description: Allows you to use the command "/societies accept - Vote to accept"
+ societies.vote.deny: true
+   description: Allows you to use the command "/societies deny - Vote to deny"
+ societies.vote.abstain: true
+   description: Allows you to use the command "/societies abstain - Vote to abstain"
+ societies.vote.cancel: true
+   description: Allows you to use the command "/societies cancel - Cancel an election"
+ societies.verify: true
+   description: Allows you to use the command "/societies verify [society] - Verify a society"
+ societies.disprove: true
+   description: Allows you to use the command "/societies disprove [society] - Disprove a society"
+ societies.reload: true
+   description: Allows you to use the command "/societies reload - Reload Societies"
+ societies.backup: true
+   description: Allows you to use the command "/societies backup [file] - Backup Societies"
 

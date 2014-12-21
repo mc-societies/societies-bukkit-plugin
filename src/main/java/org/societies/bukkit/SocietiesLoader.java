@@ -103,12 +103,39 @@ public class SocietiesLoader implements Listener, ReloadAction {
         serviceController.invoke(Lifecycle.STARTING);
     }
 
-    public void printPermissions(final PrintStream stream) {
+    public void printPluginYMLPermissions(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " ?") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
-                stream.println("   " + command.getPermission() + ": true");
-                stream.println("     description: " + "Allows you to use the command \"" + format + "\"");
+                if (command.getPermission() == null) {
+                    return;
+                }
+                stream.println(" " + command.getPermission() + ": true");
+                stream.println("   description: " + "Allows you to use the command \"" + format + "\"");
+            }
+        }, true);
+    }
+
+    public void printMarkdownPermissions(final PrintStream stream) {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " ?") {
+            @Override
+            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+                if (command.getPermission() == null) {
+                    return;
+                }
+                stream.println("|" + command.getPermission() + "|" + format + "|");
+            }
+        }, true);
+    }
+
+    public void printMarkdownCommands(final PrintStream stream) {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ",false, " ?") {
+            @Override
+            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+                if (command.getPermission() == null) {
+                    return;
+                }
+                stream.println("|" + format + "|" + command.getDescription() + "|");
             }
         }, true);
     }
