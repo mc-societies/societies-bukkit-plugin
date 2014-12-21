@@ -112,19 +112,19 @@ permissions:
   societies.allies.remove:
     description: "Allows you to use the command '/societies allies remove [society] - Cancel an alliance'"
   societies.allies.list:
-    description: "Allows you to use the command '/societies allies ? - Manage your alliances'"
+    description: "Allows you to use the command '/societies allies [?] - Manage your alliances'"
   societies.rivals.add:
     description: "Allows you to use the command '/societies rivals create [society] - Initiate a rivalry'"
   societies.rivals.remove:
     description: "Allows you to use the command '/societies rivals remove [society] - Cancel a rivalry'"
   societies.rivals.list:
-    description: "Allows you to use the command '/societies rivals ? - Manage your rivalries'"
+    description: "Allows you to use the command '/societies rivals [?] - Manage your rivalries'"
   societies.home.set:
     description: "Allows you to use the command '/societies home set [--location] - Set your society's home'"
   societies.home.regroup:
     description: "Allows you to use the command '/societies home regroup - Regroup your society'"
   societies.home.teleport:
-    description: "Allows you to use the command '/societies home ? - Teleport to your society's home'"
+    description: "Allows you to use the command '/societies home [?] - Teleport to your society's home'"
   societies.rank.create:
     description: "Allows you to use the command '/societies rank create [name] [--priority] - Create a rank'"
   societies.rank.remove:

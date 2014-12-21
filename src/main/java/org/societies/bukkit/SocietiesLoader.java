@@ -32,6 +32,8 @@ import org.societies.util.LoggerWrapper;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,8 +105,18 @@ public class SocietiesLoader implements Listener, ReloadAction {
         serviceController.invoke(Lifecycle.STARTING);
     }
 
+    void print() {
+        try {
+            printMarkdownPermissions(new PrintStream(new FileOutputStream("permissions")));
+            printMarkdownCommands(new PrintStream(new FileOutputStream("commands")));
+            printPluginYMLPermissions(new PrintStream(new FileOutputStream("plugin")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void printPluginYMLPermissions(final PrintStream stream) {
-        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " ?") {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " [?]") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
@@ -117,7 +129,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
     public void printMarkdownPermissions(final PrintStream stream) {
-        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " ?") {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " [?]") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
@@ -129,7 +141,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
     public void printMarkdownCommands(final PrintStream stream) {
-        commands.iterate(new FormatCommandIterator<Sender>("/", " - ",false, " ?") {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ",false, " [?]") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
