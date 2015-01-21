@@ -27,6 +27,7 @@ import org.societies.bukkit.listener.ListenerService;
 import org.societies.converter.ConverterModule;
 import org.societies.groups.ExtensionFactory;
 import org.societies.groups.ExtensionRoller;
+import org.societies.groups.member.Member;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -87,7 +88,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(ClassLoader.class).toInstance(loader.getClassLoader());
 
-        Multibinder<ExtensionRoller> extensions = Multibinder.newSetBinder(binder(), ExtensionRoller.class, Names
+        Multibinder<ExtensionRoller<Member>> extensions = Multibinder.newSetBinder(binder(),new TypeLiteral<ExtensionRoller<Member>>() {}, Names
                 .named("member"));
 
         install(new FactoryModuleBuilder()
