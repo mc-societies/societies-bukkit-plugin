@@ -3,6 +3,7 @@ package org.societies.bukkit;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
 import gnu.trove.set.hash.THashSet;
 import net.catharos.lib.core.command.SystemSender;
 import net.catharos.lib.core.command.sender.Sender;
@@ -86,7 +87,8 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(ClassLoader.class).toInstance(loader.getClassLoader());
 
-        Multibinder<ExtensionRoller> extensions = Multibinder.newSetBinder(binder(), ExtensionRoller.class);
+        Multibinder<ExtensionRoller> extensions = Multibinder.newSetBinder(binder(), ExtensionRoller.class, Names
+                .named("member"));
 
         install(new FactoryModuleBuilder()
                 .implement(Sender.class, BukkitSocietiesMember.class)
