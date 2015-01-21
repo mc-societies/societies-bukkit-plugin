@@ -93,9 +93,9 @@ public class DamageListener implements Listener {
         try {
             attacker = provider.getMember(attackerPlayer.getUniqueId()).get();
             victim = provider.getMember(victimPlayer.getUniqueId()).get();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
             return;
-        } catch (ExecutionException e) {
+        } catch (ExecutionException ignored) {
             return;
         }
 
