@@ -4,17 +4,17 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Inject;
-import org.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.societies.group.OnlineGroupCache;
+import org.shank.logging.InjectLogger;
+import org.societies.groups.cache.GroupCache;
+import org.societies.groups.cache.MemberCache;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-import org.societies.member.OnlineMemberCache;
 
 import javax.annotation.Nullable;
 
@@ -24,14 +24,14 @@ import javax.annotation.Nullable;
 public class JoinListener implements Listener {
 
     private final MemberProvider memberProvider;
-    private final OnlineMemberCache memberCache;
-    private final OnlineGroupCache groupCache;
+    private final MemberCache memberCache;
+    private final GroupCache groupCache;
 
     @InjectLogger
     private Logger logger;
 
     @Inject
-    public JoinListener(MemberProvider memberProvider, OnlineMemberCache memberCache, OnlineGroupCache groupCache) {
+    public JoinListener(MemberProvider memberProvider, MemberCache memberCache, GroupCache groupCache) {
         this.memberProvider = memberProvider;
         this.memberCache = memberCache;
         this.groupCache = groupCache;
