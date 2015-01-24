@@ -176,7 +176,6 @@
                                         <excludes>
                                             <exclude>org.slf4j:slf4j-api</exclude>
                                             <exclude>mysql:mysql-connector-java</exclude>
-                                            <exclude>net.milkbowl.vault:VaultAPI</exclude>
 
                                             <exclude>org.bukkit:bukkit</exclude>
                                             <exclude>org.bukkit:craftbukkit</exclude>
