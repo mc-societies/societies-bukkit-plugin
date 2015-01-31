@@ -1,6 +1,9 @@
 package org.societies.bukkit;
 
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -16,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.shank.logging.LoggingModule;
 import org.shank.service.ServiceController;
 import org.shank.service.ServiceModule;
@@ -176,12 +180,24 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
         if (sender instanceof Player) {
 
-            service.submit(new Runnable() {
+            ListenableFuture<?> future = service.submit(new Runnable() {
                 @Override
                 public void run() {
                     Member member = memberProvider.getMember(((Player) sender).getUniqueId());
                     commands.execute(member, command.getName(), args);
 
+                }
+            });
+
+            Futures.addCallback(future, new FutureCallback<Object>() {
+                @Override
+                public void onSuccess(@NotNull Object o) {
+
+                }
+
+                @Override
+                public void onFailure(@NotNull Throwable throwable) {
+                    logger.catching(throwable);
                 }
             });
 

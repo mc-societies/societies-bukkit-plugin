@@ -1,5 +1,8 @@
 package org.societies.bukkit.listener;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
@@ -7,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 import org.shank.logging.InjectLogger;
 import org.societies.groups.cache.GroupCache;
 import org.societies.groups.cache.MemberCache;
@@ -37,11 +41,23 @@ public class JoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerLoginEvent event) {
-        service.submit(new Runnable() {
+        ListenableFuture<?> future = service.submit(new Runnable() {
             @Override
             public void run() {
                 Member member = memberProvider.getMember(event.getPlayer().getUniqueId());
                 member.activate();
+            }
+        });
+
+        Futures.addCallback(future, new FutureCallback<Object>() {
+            @Override
+            public void onSuccess(@NotNull Object o) {
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Throwable throwable) {
+                logger.catching(throwable);
             }
         });
     }

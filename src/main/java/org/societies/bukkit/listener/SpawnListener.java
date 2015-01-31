@@ -1,13 +1,19 @@
 package org.societies.bukkit.listener;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.jetbrains.annotations.NotNull;
 import org.shank.config.ConfigSetting;
+import org.shank.logging.InjectLogger;
 import org.societies.bridge.Location;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
@@ -23,6 +29,9 @@ public class SpawnListener implements Listener {
     private final MemberProvider memberProvider;
     private final ListeningExecutorService service;
     private final Setting<Location> homeSetting;
+
+    @InjectLogger
+    private Logger logger;
 
     @Inject
     public SpawnListener(@ConfigSetting("home.replace-spawn") boolean respawnHome,
@@ -42,7 +51,7 @@ public class SpawnListener implements Listener {
             final Player player = event.getPlayer();
 
 
-            service.submit(new Runnable() {
+            ListenableFuture<?> future = service.submit(new Runnable() {
                 @Override
                 public void run() {
                     Member result = memberProvider.getMember(player.getUniqueId());
@@ -58,6 +67,18 @@ public class SpawnListener implements Listener {
                     if (location != null) {
                         result.get(org.societies.bridge.Player.class).teleport(location);
                     }
+                }
+            });
+
+            Futures.addCallback(future, new FutureCallback<Object>() {
+                @Override
+                public void onSuccess(Object o) {
+
+                }
+
+                @Override
+                public void onFailure(@NotNull Throwable throwable) {
+                    logger.catching(throwable);
                 }
             });
         }
