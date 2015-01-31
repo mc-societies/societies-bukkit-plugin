@@ -2,7 +2,6 @@ package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.shank.config.ConfigSetting;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -12,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.Nullable;
+import org.shank.config.ConfigSetting;
 import org.societies.groups.Relation;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
@@ -19,7 +19,6 @@ import org.societies.groups.member.MemberProvider;
 import org.societies.groups.setting.Setting;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Represents a EntityListener
@@ -90,14 +89,8 @@ public class DamageListener implements Listener {
 
         Member attacker, victim;
 
-        try {
-            attacker = provider.getMember(attackerPlayer.getUniqueId()).get();
-            victim = provider.getMember(victimPlayer.getUniqueId()).get();
-        } catch (InterruptedException ignored) {
-            return;
-        } catch (ExecutionException ignored) {
-            return;
-        }
+        attacker = provider.getMember(attackerPlayer.getUniqueId());
+        victim = provider.getMember(victimPlayer.getUniqueId());
 
         Group attackerGroup = attacker.getGroup();
         Group victimGroup = victim.getGroup();

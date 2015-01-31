@@ -1,13 +1,13 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import org.shank.logging.InjectLogger;
-import org.shank.service.AbstractService;
-import org.shank.service.lifecycle.LifecycleContext;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.shank.logging.InjectLogger;
+import org.shank.service.AbstractService;
+import org.shank.service.lifecycle.LifecycleContext;
 import org.societies.groups.event.EventController;
 
 /**

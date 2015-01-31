@@ -1,8 +1,6 @@
 package org.societies.bukkit.listener;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
@@ -16,14 +14,13 @@ import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
 
-import javax.annotation.Nullable;
-
 /**
  * Represents a JoinListener
  */
 public class JoinListener implements Listener {
 
     private final MemberProvider memberProvider;
+    private final ListeningExecutorService service;
     private final MemberCache memberCache;
     private final GroupCache groupCache;
 
@@ -31,27 +28,20 @@ public class JoinListener implements Listener {
     private Logger logger;
 
     @Inject
-    public JoinListener(MemberProvider memberProvider, MemberCache memberCache, GroupCache groupCache) {
+    public JoinListener(MemberProvider memberProvider, ListeningExecutorService service, MemberCache memberCache, GroupCache groupCache) {
         this.memberProvider = memberProvider;
+        this.service = service;
         this.memberCache = memberCache;
         this.groupCache = groupCache;
     }
 
     @EventHandler
     public void onPlayerJoin(final PlayerLoginEvent event) {
-        ListenableFuture<Member> future = memberProvider.getMember(event.getPlayer().getUniqueId());
-
-        Futures.addCallback(future, new FutureCallback<Member>() {
+        service.submit(new Runnable() {
             @Override
-            public void onSuccess(@Nullable Member result) {
-                if (result != null) {
-                    result.activate();
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                logger.catching(t);
+            public void run() {
+                Member member = memberProvider.getMember(event.getPlayer().getUniqueId());
+                member.activate();
             }
         });
     }

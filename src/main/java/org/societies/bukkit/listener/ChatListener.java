@@ -1,18 +1,16 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import org.shank.config.ConfigSetting;
-import org.shank.logging.InjectLogger;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.shank.config.ConfigSetting;
+import org.shank.logging.InjectLogger;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * Represents a ChatListener
@@ -37,16 +35,7 @@ public class ChatListener implements Listener {
             return;
         }
 
-        Member member;
-        try {
-            member = provider.getMember(event.getPlayer().getUniqueId()).get();
-        } catch (InterruptedException e) {
-            logger.catching(e);
-            return;
-        } catch (ExecutionException e) {
-            logger.catching(e);
-            return;
-        }
+        Member member = provider.getMember(event.getPlayer().getUniqueId());
 
         String format = event.getFormat();
         Group group = member.getGroup();

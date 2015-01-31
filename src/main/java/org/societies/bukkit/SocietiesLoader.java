@@ -1,8 +1,6 @@
 package org.societies.bukkit;
 
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -18,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.shank.logging.LoggingModule;
 import org.shank.service.ServiceController;
 import org.shank.service.ServiceModule;
@@ -30,16 +27,10 @@ import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
 import org.societies.util.LoggerWrapper;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.util.concurrent.Futures.addCallback;
 
 
 /**
@@ -54,6 +45,8 @@ public class SocietiesLoader implements Listener, ReloadAction {
     private ServiceController serviceController;
     private Sender systemSender;
     private Logger logger;
+
+    private ListeningExecutorService service;
 
     private final ClassLoader classLoader;
     private final JavaPlugin plugin;
@@ -100,16 +93,17 @@ public class SocietiesLoader implements Listener, ReloadAction {
         commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {}));
         memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {}));
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
+        service = injector.getInstance(SocietiesModule.WORKER_EXECUTOR);
 
 
         serviceController.invoke(Lifecycle.STARTING);
     }
 
-    void print() {
+    void print() throws UnsupportedEncodingException {
         try {
-            printMarkdownPermissions(new PrintStream(new FileOutputStream("permissions")));
-            printMarkdownCommands(new PrintStream(new FileOutputStream("commands")));
-            printPluginYMLPermissions(new PrintStream(new FileOutputStream("plugin")));
+            printMarkdownPermissions(new PrintStream(new FileOutputStream("permissions"), true, "UTF-8"));
+            printMarkdownCommands(new PrintStream(new FileOutputStream("commands"), true, "UTF-8"));
+            printPluginYMLPermissions(new PrintStream(new FileOutputStream("plugin"), true, "UTF-8"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -141,7 +135,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
     public void printMarkdownCommands(final PrintStream stream) {
-        commands.iterate(new FormatCommandIterator<Sender>("/", " - ",false, " [?]") {
+        commands.iterate(new FormatCommandIterator<Sender>("/", " - ", false, " [?]") {
             @Override
             public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
@@ -156,8 +150,6 @@ public class SocietiesLoader implements Listener, ReloadAction {
         if (injector == null) {
             return;
         }
-
-        ListeningExecutorService service = injector.getInstance(ListeningExecutorService.class);
 
         service.shutdown();
 
@@ -175,7 +167,7 @@ public class SocietiesLoader implements Listener, ReloadAction {
     }
 
 
-    public boolean onCommand(CommandSender sender, final org.bukkit.command.Command command, String label, final String[] args) {
+    public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command command, String label, final String[] args) {
 
         if (injector == null) {
             sender.sendMessage("Societies failed to start somehow, sorry :/ Fuck the dev!!");
@@ -183,20 +175,15 @@ public class SocietiesLoader implements Listener, ReloadAction {
         }
 
         if (sender instanceof Player) {
-            ListenableFuture<Member> future = memberProvider.getMember(((Player) sender).getUniqueId());
 
-            addCallback(future, new FutureCallback<Member>() {
+            service.submit(new Runnable() {
                 @Override
-                public void onSuccess(@Nullable Member result) {
-                    commands.execute(result, command.getName(), args);
-                }
+                public void run() {
+                    Member member = memberProvider.getMember(((Player) sender).getUniqueId());
+                    commands.execute(member, command.getName(), args);
 
-                @Override
-                public void onFailure(@NotNull Throwable t) {
-                    logger.catching(t);
                 }
             });
-
 
         } else {
             commands.execute(systemSender, command.getName(), args);
