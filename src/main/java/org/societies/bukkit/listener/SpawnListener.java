@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.jetbrains.annotations.NotNull;
 import org.shank.config.ConfigSetting;
 import org.shank.logging.InjectLogger;
 import org.societies.bridge.Location;
@@ -77,7 +76,7 @@ public class SpawnListener implements Listener {
                 }
 
                 @Override
-                public void onFailure(@NotNull Throwable throwable) {
+                public void onFailure(Throwable throwable) {
                     logger.catching(throwable);
                 }
             });

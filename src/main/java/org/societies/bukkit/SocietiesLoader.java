@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.shank.logging.LoggingModule;
 import org.shank.service.ServiceController;
 import org.shank.service.ServiceModule;
@@ -191,12 +190,12 @@ public class SocietiesLoader implements Listener, ReloadAction {
 
             Futures.addCallback(future, new FutureCallback<Object>() {
                 @Override
-                public void onSuccess(@NotNull Object o) {
+                public void onSuccess(Object o) {
 
                 }
 
                 @Override
-                public void onFailure(@NotNull Throwable throwable) {
+                public void onFailure(Throwable throwable) {
                     logger.catching(throwable);
                 }
             });

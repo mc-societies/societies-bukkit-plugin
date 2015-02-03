@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
 import org.shank.logging.InjectLogger;
 import org.societies.groups.cache.GroupCache;
 import org.societies.groups.cache.MemberCache;
@@ -51,12 +50,12 @@ public class JoinListener implements Listener {
 
         Futures.addCallback(future, new FutureCallback<Object>() {
             @Override
-            public void onSuccess(@NotNull Object o) {
+            public void onSuccess(Object o) {
 
             }
 
             @Override
-            public void onFailure(@NotNull Throwable throwable) {
+            public void onFailure(Throwable throwable) {
                 logger.catching(throwable);
             }
         });
