@@ -41,11 +41,6 @@
 
                 <exclude>org.codehaus.jackson:jackson-mapper-asl</exclude>
                 <exclude>org.codehaus.jackson:jackson-core-asl</exclude>
-                <exclude>org.jooq:jooq-meta</exclude>
-                <exclude>mysql:mysql-connector-java</exclude>
-
-                <!--Classpath fail-->
-                <exclude>org.flywaydb:flyway-core</exclude>
 
                 <!--Bukkit-->
                 <exclude>org.bukkit:bukkit</exclude>
@@ -55,9 +50,6 @@
                 <!--SimpleClans-->
                 <exclude>com.p000ison.dev.simpleclans2:SimpleClans2</exclude>
                 <exclude>net.sacredlabyrinth.phaed.simpleclans:SimpleClans</exclude>
-
-                <!--Ony compile time-->
-                <exclude>org.jooq:jooq-codegen</exclude>
 
                 <!--Tests-->
                 <exclude>org.jukito:jukito</exclude>

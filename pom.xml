@@ -175,7 +175,6 @@
                                     <artifactSet>
                                         <excludes>
                                             <exclude>org.slf4j:slf4j-api</exclude>
-                                            <exclude>mysql:mysql-connector-java</exclude>
 
                                             <exclude>org.bukkit:bukkit</exclude>
                                             <exclude>org.bukkit:craftbukkit</exclude>
@@ -184,9 +183,6 @@
                                             <!--SimpleClans-->
                                             <exclude>com.p000ison.dev.simpleclans2:SimpleClans2</exclude>
                                             <exclude>net.sacredlabyrinth.phaed.simpleclans:SimpleClans</exclude>
-
-                                            <!--Ony compile time-->
-                                            <exclude>org.jooq:jooq-codegen</exclude>
 
                                             <!--Tests-->
                                             <exclude>org.jukito:jukito</exclude>
