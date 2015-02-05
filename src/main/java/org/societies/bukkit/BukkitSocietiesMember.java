@@ -25,7 +25,7 @@ import java.util.UUID;
 /**
  * Represents a SocietyMember
  */
-class BukkitSocietiesMember implements EconomyParticipant, org.societies.bridge.Player, Sender {
+public class BukkitSocietiesMember implements EconomyParticipant, org.societies.bridge.Player, Sender {
 
     private final LocaleProvider localeProvider;
     private final Dictionary<String> directory;
