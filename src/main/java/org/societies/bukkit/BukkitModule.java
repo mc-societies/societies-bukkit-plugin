@@ -21,7 +21,7 @@ import org.societies.bridge.World;
 import org.societies.bridge.WorldResolver;
 import org.societies.bridge.bukkit.BukkitMaterial;
 import org.societies.bridge.bukkit.BukkitWorld;
-import org.societies.bukkit.converter.ConverterService;
+import org.societies.converter.ConverterService;
 import org.societies.bukkit.listener.ListenerService;
 import org.societies.converter.ConverterModule;
 import org.societies.groups.ExtensionFactory;
@@ -39,14 +39,12 @@ import static com.google.inject.multibindings.Multibinder.newSetBinder;
 public class BukkitModule extends AbstractServiceModule {
 
     private final Server server;
-    private final Plugin plugin;
-    private final SocietiesLoader loader;
+    private final SocietiesPlugin plugin;
     private final Economy economy;
 
-    public BukkitModule(Server server, Plugin plugin, SocietiesLoader loader, Economy economy) {
+    public BukkitModule(Server server, SocietiesPlugin plugin, Economy economy) {
         this.server = server;
         this.plugin = plugin;
-        this.loader = loader;
         this.economy = economy;
     }
 
@@ -76,7 +74,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(NameProvider.class).to(BukkitNameProvider.class);
 
-        bind(ReloadAction.class).toInstance(loader);
+        bind(ReloadAction.class).toInstance(plugin);
 
         bind(PlayerResolver.class).to(BukkitPlayerResolver.class);
 
@@ -87,7 +85,7 @@ public class BukkitModule extends AbstractServiceModule {
         install(new ConverterModule(server));
         bindService().to(ConverterService.class);
 
-        bind(ClassLoader.class).toInstance(loader.getClassLoader());
+        bind(ClassLoader.class).toInstance(plugin.getPluginClassLoader());
 
         Multibinder<ExtensionRoller<Member>> extensions = newSetBinder(
                 binder(),

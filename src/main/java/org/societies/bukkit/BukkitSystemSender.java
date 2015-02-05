@@ -27,7 +27,6 @@ public class BukkitSystemSender extends SystemSender {
         sender.sendMessage(dictionary.getTranslation(message));
     }
 
-
     @Override
     public void send(String message, Object... args) {
         ChatColor.argumentColorReset(args);
