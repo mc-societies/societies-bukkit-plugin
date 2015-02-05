@@ -15,7 +15,7 @@ import org.societies.groups.member.MemberProvider;
 /**
  * Represents a ChatListener
  */
-public class ChatListener implements Listener {
+class ChatListener implements Listener {
 
     private final boolean integration;
     private final MemberProvider provider;

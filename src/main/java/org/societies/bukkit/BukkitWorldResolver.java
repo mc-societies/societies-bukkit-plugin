@@ -10,7 +10,7 @@ import org.societies.bridge.bukkit.BukkitWorld;
 /**
  * Represents a BukkitWorldProvider
  */
-public class BukkitWorldResolver implements WorldResolver {
+class BukkitWorldResolver implements WorldResolver {
 
     private final Server server;
     private final World defaultWorld;

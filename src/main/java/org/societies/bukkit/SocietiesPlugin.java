@@ -148,6 +148,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
         }, true);
     }
 
+    @Override
     public void onDisable() {
         if (injector == null) {
             return;
@@ -169,6 +170,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
     }
 
 
+    @Override
     public boolean onCommand(final CommandSender sender, final org.bukkit.command.Command command, String label, final String[] args) {
 
         if (injector == null) {
@@ -218,6 +220,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
         return true;
     }
 
+    @Override
     public List<String> onTabComplete(CommandSender sender, final org.bukkit.command.Command command, String alias, final String[] args) {
         if (sender instanceof Player) {
 

@@ -100,6 +100,6 @@ public class BukkitModule extends AbstractServiceModule {
                 .implement(BukkitSocietiesMember.class, BukkitSocietiesMember.class)
                 .build(new TypeLiteral<ExtensionFactory<BukkitSocietiesMember, UUID>>() {}));
 
-        extensions.addBinding().to(BukkitExtensionRoller.class);
+        extensions.addBinding().to(BridgeExtensionRoller.class);
     }
 }

@@ -20,7 +20,7 @@ import org.societies.groups.member.MemberProvider;
 /**
  * Represents a JoinListener
  */
-public class JoinListener implements Listener {
+class JoinListener implements Listener {
 
     private final MemberProvider memberProvider;
     private final ListeningExecutorService service;

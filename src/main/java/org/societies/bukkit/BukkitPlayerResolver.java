@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * Represents a BukkitPlayerProvider
  */
-public class BukkitPlayerResolver implements PlayerResolver {
+class BukkitPlayerResolver implements PlayerResolver {
 
     private final Server sender;
 

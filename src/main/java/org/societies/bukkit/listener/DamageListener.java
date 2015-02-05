@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Represents a EntityListener
  */
-public class DamageListener implements Listener {
+class DamageListener implements Listener {
 
     private final MemberProvider provider;
     private final List<String> disabledWorlds;

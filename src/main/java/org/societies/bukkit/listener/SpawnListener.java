@@ -22,7 +22,7 @@ import org.societies.groups.setting.Setting;
 /**
  * Represents a SpawnListener
  */
-public class SpawnListener implements Listener {
+class SpawnListener implements Listener {
 
     private final boolean respawnHome;
     private final MemberProvider memberProvider;

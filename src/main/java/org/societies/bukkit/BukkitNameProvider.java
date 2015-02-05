@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * Represents a BukkitNameProvider
  */
-public class BukkitNameProvider implements NameProvider {
+class BukkitNameProvider implements NameProvider {
 
     private final NameProvider fallback;
     private final Server server;

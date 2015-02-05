@@ -18,7 +18,7 @@ import org.societies.groups.member.Member;
 /**
  * Represents a TeamListener
  */
-public class TeamListener {
+class TeamListener {
 
     @Handler(delivery = Invoke.Synchronously)
     public void onJoin(MemberJoinEvent event) {

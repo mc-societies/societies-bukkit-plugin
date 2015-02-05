@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 /**
  * Represents a BukkitSender
  */
-public class BukkitSystemSender extends SystemSender {
+class BukkitSystemSender extends SystemSender {
 
     private final ConsoleCommandSender sender;
     private final Dictionary<String> dictionary;
