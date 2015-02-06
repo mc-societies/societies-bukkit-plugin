@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents a SocietiesPlugin
  */
-public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadAction {
+public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadAction {
 
     private Injector injector;
 
@@ -49,21 +49,16 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
 
     private ListeningExecutorService service;
 
-    private final ClassLoader classLoader;
-    private final JavaPlugin plugin;
 
-    public SocietiesPlugin(ClassLoader classLoader, JavaPlugin plugin) {
-        this.classLoader = classLoader;
-        this.plugin = plugin;
-    }
+
 
     @Override
     public void onEnable() {
-        logger = new LoggerWrapper(plugin.getLogger());
+        logger = new LoggerWrapper(this.getLogger());
 
         Economy economy;
 
-        RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager()
+        RegisteredServiceProvider<Economy> economyProvider = this.getServer().getServicesManager()
                 .getRegistration(Economy.class);
 
         if (economyProvider != null) {
@@ -73,7 +68,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
             logger.info("You need to install Vault to use the economy features");
         }
 
-        File dir = plugin.getDataFolder();
+        File dir = this.getDataFolder();
 
         logger.info("Reloading AK-47... Please wait patiently!");
 
@@ -81,7 +76,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
                 new ServiceModule(),
                 new LoggingModule(logger),
                 new SocietiesModule(dir, logger),
-                new BukkitModule(plugin.getServer(), this, economy)
+                new BukkitModule(this.getServer(), this, economy)
         );
 
         logger.info("Well done.");
@@ -91,7 +86,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
         serviceController.invoke(Lifecycle.INITIALISING);
 
 
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        this.getServer().getPluginManager().registerEvents(this, this);
         commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {}));
         memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {}));
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
@@ -105,7 +100,7 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
         try {
             printMarkdownPermissions(new PrintStream(new FileOutputStream("permissions"), true, "UTF-8"));
             printMarkdownCommands(new PrintStream(new FileOutputStream("commands"), true, "UTF-8"));
-            printPluginYMLPermissions(new PrintStream(new FileOutputStream("plugin"), true, "UTF-8"));
+            printPluginYMLPermissions(new PrintStream(new FileOutputStream("this"), true, "UTF-8"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -260,6 +255,6 @@ public class SocietiesPlugin extends JavaPlugin  implements Listener, ReloadActi
     }
 
     public ClassLoader getPluginClassLoader() {
-        return classLoader;
+        return getClassLoader();
     }
 }
