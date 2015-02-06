@@ -7,8 +7,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.societies.api.sieging.ActionValidator;
 import org.societies.api.sieging.Besieger;
-import org.societies.api.sieging.BesiegerProvider;
 import org.societies.bridge.bukkit.BukkitWorld;
+import org.societies.groups.group.Group;
+import org.societies.groups.member.Member;
+import org.societies.groups.member.MemberProvider;
 
 /**
  * Represents a SiegingListener
@@ -16,18 +18,21 @@ import org.societies.bridge.bukkit.BukkitWorld;
 class SiegingListener implements Listener {
 
     private final ActionValidator actionValidator;
-    private final BesiegerProvider besiegerProvider;
+    private final MemberProvider memberProvider;
 
     @Inject
-    public SiegingListener(ActionValidator actionValidator, BesiegerProvider besiegerProvider) {
+    public SiegingListener(ActionValidator actionValidator, MemberProvider memberProvider) {
         this.actionValidator = actionValidator;
-        this.besiegerProvider = besiegerProvider;
+        this.memberProvider = memberProvider;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
-        Besieger besieger = besiegerProvider.getBesieger(event.getPlayer().getUniqueId());
+        Member member = memberProvider.getMember(event.getPlayer().getUniqueId());
 
+        Group group = member.getGroup();
+
+        Besieger besieger = group == null ? null : group.get(Besieger.class);
 
         if (!actionValidator.canDestroy(besieger, BukkitWorld.toLocation(event.getBlock().getLocation()))) {
             event.setCancelled(true);
