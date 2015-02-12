@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 import org.societies.api.economy.EconomyParticipant;
 import org.societies.api.economy.EconomyResponse;
@@ -21,6 +22,8 @@ import org.societies.member.locale.LocaleProvider;
 
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Represents a SocietyMember
@@ -33,17 +36,20 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
     private final Economy economy;
     private final Materials materials;
     private final UUID uuid;
+    private final Plugin plugin;
 
     @Inject
     public BukkitSocietiesMember(@Assisted UUID uuid,
                                  LocaleProvider localeProvider,
                                  Dictionary<String> directory,
-                                 Economy economy, Materials materials) {
+                                 Economy economy, Materials materials,
+                                 Plugin plugin) {
         this.localeProvider = localeProvider;
         this.directory = directory;
         this.economy = economy;
         this.materials = materials;
         this.uuid = uuid;
+        this.plugin = plugin;
     }
 
     @Override
@@ -128,15 +134,41 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
     }
 
     @Override
-    public EconomyResponse withdraw(double amount) {
-        net.milkbowl.vault.economy.EconomyResponse response = economy.withdrawPlayer(toPlayer(), amount);
-        return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
+    public EconomyResponse withdraw(final double amount) {
+        try {
+            return Bukkit.getScheduler().callSyncMethod(plugin, new Callable<EconomyResponse>() {
+                @Override
+                public EconomyResponse call() throws Exception {
+                    net.milkbowl.vault.economy.EconomyResponse response = economy.withdrawPlayer(toPlayer(), amount);
+                    return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
+                }
+            }).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return new EconomyResponse(0, 0, false);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new EconomyResponse(0, 0, false);
+        }
     }
 
     @Override
-    public EconomyResponse deposit(double amount) {
-        net.milkbowl.vault.economy.EconomyResponse response = economy.depositPlayer(toPlayer(), amount);
-        return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
+    public EconomyResponse deposit(final double amount) {
+        try {
+            return Bukkit.getScheduler().callSyncMethod(plugin, new Callable<EconomyResponse>() {
+                @Override
+                public EconomyResponse call() throws Exception {
+                    net.milkbowl.vault.economy.EconomyResponse response = economy.depositPlayer(toPlayer(), amount);
+                    return new EconomyResponse(response.amount, response.balance, response.transactionSuccess());
+                }
+            }).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return new EconomyResponse(0, 0, false);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return new EconomyResponse(0, 0, false);
+        }
     }
 
     @Override
