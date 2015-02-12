@@ -38,7 +38,7 @@ public class ListenerService extends AbstractService {
         pluginManager.registerEvents(context.get(DamageListener.class), plugin);
         pluginManager.registerEvents(context.get(SpawnListener.class), plugin);
         pluginManager.registerEvents(context.get(JoinListener.class), plugin);
-        pluginManager.registerEvents(context.get(SiegingListener.class), plugin);
+//        pluginManager.registerEvents(context.get(SiegingListener.class), plugin);
 
         eventController.subscribe(new TeamListener());
     }
