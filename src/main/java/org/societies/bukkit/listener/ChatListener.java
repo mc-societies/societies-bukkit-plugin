@@ -29,7 +29,7 @@ class ChatListener implements Listener {
         this.provider = provider;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (!integration) {
             return;
