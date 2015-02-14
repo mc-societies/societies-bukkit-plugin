@@ -93,7 +93,8 @@
                                     <goal>shade</goal>
                                 </goals>
                                 <configuration>
-                                    <minimizeJar>true</minimizeJar>
+                                    <!--<outputFile>${project.build.finalName}.jar</outputFile>-->
+                                    <!--<minimizeJar>true</minimizeJar>-->
                                     <artifactSet>
                                         <includes>
                                             <include>org.apache.logging.log4j:log4j-core</include>
@@ -133,22 +134,22 @@
                         </executions>
                     </plugin>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.5.1</version>
-                        <configuration>
-                            <descriptor>src/assembly/assembly.xml</descriptor>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+                    <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                    <!--<version>2.5.1</version>-->
+                    <!--<configuration>-->
+                    <!--<descriptor>src/assembly/assembly.xml</descriptor>-->
+                    <!--</configuration>-->
+                    <!--<executions>-->
+                    <!--<execution>-->
+                    <!--<phase>package</phase>-->
+                    <!--<goals>-->
+                    <!--<goal>single</goal>-->
+                    <!--</goals>-->
+                    <!--</execution>-->
+                    <!--</executions>-->
+                    <!--</plugin>-->
                 </plugins>
             </build>
         </profile>
@@ -171,7 +172,7 @@
                                     <goal>shade</goal>
                                 </goals>
                                 <configuration>
-                                    <minimizeJar>true</minimizeJar>
+                                    <!--<minimizeJar>true</minimizeJar>-->
                                     <artifactSet>
                                         <excludes>
                                             <exclude>org.slf4j:slf4j-api</exclude>
@@ -216,22 +217,48 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
 
+        <profile>
+            <id>proguard</id>
+            <build>
+                <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.5.1</version>
-                        <configuration>
-                            <descriptor>src/assembly/assembly.xml</descriptor>
-                        </configuration>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                        <version>2.0.8</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>single</goal>
+                                    <goal>proguard</goal>
                                 </goals>
                             </execution>
                         </executions>
+
+                        <configuration>
+                            <!--<exclusions>-->
+                            <!--<exclusion>-->
+                            <!--<groupId>org.bukkit</groupId>-->
+                            <!--<artifactId>bukkit</artifactId>-->
+                            <!--</exclusion>-->
+
+                            <!--&lt;!&ndash; And so on &ndash;&gt;-->
+                            <!--</exclusions>-->
+
+                            <obfuscate>false</obfuscate>
+                            <includeDependency>true</includeDependency>
+                            <injar>${project.build.finalName}.jar</injar>
+                            <outjar>${project.build.finalName}-small.jar</outjar>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <proguardInclude>${basedir}/proguard.conf</proguardInclude>
+                            <libs>
+                                <lib>${java.home}/lib/rt.jar</lib>
+                                <lib>${java.home}/lib/jsse.jar</lib>
+                            </libs>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
