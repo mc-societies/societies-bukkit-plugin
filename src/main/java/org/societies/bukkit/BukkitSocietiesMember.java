@@ -216,6 +216,6 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
 
     @Override
     public Inventory getInventory() {
-        return new BukkitInventory(materials, toPlayerNotNull().getInventory());
+        return new BukkitInventory(toPlayerNotNull().getInventory());
     }
 }
