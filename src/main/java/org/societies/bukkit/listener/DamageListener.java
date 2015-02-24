@@ -76,7 +76,7 @@ class DamageListener implements Listener {
 
         Player victimPlayer = (Player) victimEntity;
 
-        if (disabledWorlds.contains(victimPlayer.getWorld())) {
+        if (disabledWorlds.contains(victimPlayer.getWorld().getName())) {
             return;
         }
 
