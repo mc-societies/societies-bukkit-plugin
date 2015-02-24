@@ -66,7 +66,7 @@ class SiegingListener implements Listener {
         }
     }
 
-    private boolean can(Action action, Player player, Location location) {
+    private boolean can(int action, Player player, Location location) {
         Member member = memberProvider.getMember(player.getUniqueId());
 
         Group group = member.getGroup();
