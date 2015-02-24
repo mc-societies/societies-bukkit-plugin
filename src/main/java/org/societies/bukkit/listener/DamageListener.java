@@ -37,8 +37,8 @@ class DamageListener implements Listener {
                           @ConfigSetting("blacklisted-worlds") List<String> disabledWorlds,
                           @ConfigSetting("pvp.global-ff-forced") boolean globalFFForced,
                           @ConfigSetting("pvp.save-civilians") boolean saveCivilians,
-                          @Named("personal-friendly-fire") Setting<Boolean> personalFF,
-                          @Named("group-friendly-fire") Setting<Boolean> groupFF) {
+                          @Named("personal-ff") Setting<Boolean> personalFF,
+                          @Named("group-ff") Setting<Boolean> groupFF) {
         this.provider = provider;
         this.disabledWorlds = disabledWorlds;
         this.globalFFForced = globalFFForced;
