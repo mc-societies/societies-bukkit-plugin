@@ -14,7 +14,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Nullable;
 import org.societies.api.economy.EconomyParticipant;
 import org.societies.api.economy.EconomyResponse;
-import org.societies.bridge.*;
+import org.societies.bridge.Inventory;
+import org.societies.bridge.Location;
+import org.societies.bridge.Material;
+import org.societies.bridge.World;
 import org.societies.bridge.bukkit.BukkitInventory;
 import org.societies.bridge.bukkit.BukkitItemStack;
 import org.societies.bridge.bukkit.BukkitWorld;
@@ -34,7 +37,6 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
     private final Dictionary<String> directory;
 
     private final Economy economy;
-    private final Materials materials;
     private final UUID uuid;
     private final Plugin plugin;
 
@@ -42,12 +44,11 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
     public BukkitSocietiesMember(@Assisted UUID uuid,
                                  LocaleProvider localeProvider,
                                  Dictionary<String> directory,
-                                 Economy economy, Materials materials,
+                                 Economy economy,
                                  Plugin plugin) {
         this.localeProvider = localeProvider;
         this.directory = directory;
         this.economy = economy;
-        this.materials = materials;
         this.uuid = uuid;
         this.plugin = plugin;
     }
