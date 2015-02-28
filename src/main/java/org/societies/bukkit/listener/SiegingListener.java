@@ -21,7 +21,6 @@ import org.societies.groups.member.MemberProvider;
 
 import java.util.Set;
 
-import static org.societies.api.sieging.ActionValidator.Action;
 import static org.societies.bridge.bukkit.BukkitWorld.toBukkitLocation;
 import static org.societies.bridge.bukkit.BukkitWorld.toLocation;
 
@@ -56,7 +55,7 @@ class SiegingListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void checkBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
-        boolean can = can(Action.DESTROY, event.getPlayer(), block.getLocation());
+        boolean can = can(ActionValidator.Action.DESTROY, event.getPlayer(), block.getLocation());
 
         if (!can) {
             event.setCancelled(true);
@@ -66,7 +65,7 @@ class SiegingListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void checkBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        boolean can = can(Action.BUILD, event.getPlayer(), block.getLocation());
+        boolean can = can(ActionValidator.Action.BUILD, event.getPlayer(), block.getLocation());
 
         if (!can) {
             event.setCancelled(true);
@@ -75,10 +74,13 @@ class SiegingListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void checkBlockInteract(PlayerInteractEvent event) {
+        if (event.getAction() != org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
         Block block = event.getClickedBlock();
 
         if (block != null) {
-            boolean can = can(Action.INTERACT, event.getPlayer(), block.getLocation());
+            boolean can = can(ActionValidator.Action.INTERACT, event.getPlayer(), block.getLocation());
 
             if (!can) {
                 event.setCancelled(true);
@@ -138,20 +140,25 @@ class SiegingListener implements Listener {
             return;
         }
 
-        Siege siege = siegeController.getSiege(BukkitWorld.toLocation(blockLocation));
+        Optional<Siege> siege = siegeController.getSiege(BukkitWorld.toLocation(blockLocation));
 
-        if (!siege.getBesieger().equals(besieger)) {
+        if (!siege.isPresent()) {
+            return;
+        }
+
+
+        if (!siege.get().getCity().getOwner().equals(besieger)) {
             event.setCancelled(true);
             return;
         }
 
-        org.societies.bridge.Location bindstone = siege.getLocationInitiated();
+        org.societies.bridge.Location bindstone = siege.get().getLocationInitiated();
 
         if (bindstone.getRoundedX() == blockLocation.getBlockX()
                 && bindstone.getRoundedY() == blockLocation.getBlockY()
                 && bindstone.getRoundedZ() == blockLocation.getBlockZ()) {
 
-            siegeController.stop(siege, siege.getCity().getOwner());
+            siegeController.stop(siege.get(), siege.get().getCity().getOwner());
         }
     }
 
@@ -160,10 +167,14 @@ class SiegingListener implements Listener {
         Besieger besieger = getBesieger(event.getPlayer());
 
         if (besieger != null) {
-            Siege siege = siegeController.getSiegeByAttacker(besieger);
+            Optional<Siege> siege = siegeController.getSiegeByAttacker(besieger);
 
-            if (siege.isStarted()) {
-                event.setRespawnLocation(toBukkitLocation(server, siege.getLocationInitiated()));
+            if (!siege.isPresent()) {
+                return;
+            }
+
+            if (siege.get().isStarted()) {
+                event.setRespawnLocation(toBukkitLocation(server, siege.get().getLocationInitiated()));
             }
         }
     }
