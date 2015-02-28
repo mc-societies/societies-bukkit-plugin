@@ -1,5 +1,6 @@
 package org.societies.bukkit.listener;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -103,19 +104,19 @@ class SiegingListener implements Listener {
             return;
         }
 
-        City city = cityProvider.getCity(toLocation(blockLocation));
+        Optional<City> city = cityProvider.getCity(toLocation(blockLocation));
 
-        if (city == null) {
+        if (!city.isPresent()) {
             return;
         }
 
-        org.societies.bridge.Location bindstone = city.getLocation();
+        org.societies.bridge.Location bindstone = city.get().getLocation();
 
         if (bindstone.getRoundedX() == blockLocation.getBlockX()
                 && bindstone.getRoundedY() == blockLocation.getBlockY()
                 && bindstone.getRoundedZ() == blockLocation.getBlockZ()) {
 
-            Set<Siege> sieges = siegeController.getSieges(city);
+            Set<Siege> sieges = siegeController.getSieges(city.get());
 
             for (Siege siege : sieges) {
                 if (siege.isStarted() && siege.getBesieger().equals(besieger)) {
