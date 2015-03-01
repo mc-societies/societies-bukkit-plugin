@@ -5,8 +5,8 @@ softdepend: [ Vault, SimpleClans, SimpleClans2 ]
 authors:
   - p000ison
 commands:
-  societies:
-    aliases: [ society, s ]
+  s:
+    aliases: [ society, societies ]
     description: Society main command
     permission: societies.member
 permissions:
