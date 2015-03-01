@@ -37,7 +37,10 @@ class SiegingListener implements Listener {
     private final Server server;
 
     @Inject
-    public SiegingListener(ActionValidator actionValidator, MemberProvider memberProvider, CityProvider cityProvider, SiegeController siegeController, Server server) {
+    public SiegingListener(ActionValidator actionValidator,
+                           MemberProvider memberProvider, CityProvider cityProvider,
+                           SiegeController siegeController,
+                           Server server) {
         this.actionValidator = actionValidator;
         this.memberProvider = memberProvider;
         this.cityProvider = cityProvider;
@@ -45,11 +48,19 @@ class SiegingListener implements Listener {
         this.server = server;
     }
 
-    private Besieger getBesieger(Player player) {
-        Member member = memberProvider.getMember(player.getUniqueId());
+    private Member getMember(Player player) {
+        return memberProvider.getMember(player.getUniqueId());
+    }
+
+    private Besieger getBesieger(Member member) {
         Group group = member.getGroup();
 
         return group == null ? null : group.get(Besieger.class);
+    }
+
+    private Besieger getBesieger(Player player) {
+        Member member = getMember(player);
+        return getBesieger(member);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -77,6 +88,7 @@ class SiegingListener implements Listener {
         if (event.getAction() != org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK) {
             return;
         }
+
         Block block = event.getClickedBlock();
 
         if (block != null) {
@@ -106,23 +118,26 @@ class SiegingListener implements Listener {
             return;
         }
 
-        Optional<City> city = cityProvider.getCity(toLocation(blockLocation));
+        Optional<City> optional = cityProvider.getCity(toLocation(blockLocation));
 
-        if (!city.isPresent()) {
+        if (!optional.isPresent()) {
             return;
         }
 
-        org.societies.bridge.Location bindstone = city.get().getLocation();
+        City city = optional.get();
+        org.societies.bridge.Location bindstone = city.getLocation();
 
         if (bindstone.getRoundedX() == blockLocation.getBlockX()
                 && bindstone.getRoundedY() == blockLocation.getBlockY()
                 && bindstone.getRoundedZ() == blockLocation.getBlockZ()) {
 
-            Set<Siege> sieges = siegeController.getSieges(city.get());
+            Set<Siege> sieges = siegeController.getSieges(city);
 
             for (Siege siege : sieges) {
                 if (siege.isStarted() && siege.getBesieger().equals(besieger)) {
                     siegeController.stop(siege, besieger);
+                    Group owner = city.getOwner().getGroup();
+                    siege.send("siege.besieger-won", siege.getBesieger().getGroup().getName(), city.getName(), owner.getName());
                     break;
                 }
             }
@@ -140,31 +155,31 @@ class SiegingListener implements Listener {
             return;
         }
 
-        Optional<Siege> siege = siegeController.getSiege(BukkitWorld.toLocation(blockLocation));
+        Optional<Siege> optional = siegeController.getSiege(BukkitWorld.toLocation(blockLocation));
 
-        if (!siege.isPresent()) {
+        if (!optional.isPresent()) {
             return;
         }
 
 
-        if (!siege.get().getCity().getOwner().equals(besieger)) {
+        Siege siege = optional.get();
+        City city = siege.getCity();
+        Besieger owner = city.getOwner();
+
+        if (!owner.equals(besieger)) {
             event.setCancelled(true);
             return;
         }
 
-        org.societies.bridge.Location bindstone = siege.get().getLocationInitiated();
 
-        if (bindstone.getRoundedX() == blockLocation.getBlockX()
-                && bindstone.getRoundedY() == blockLocation.getBlockY()
-                && bindstone.getRoundedZ() == blockLocation.getBlockZ()) {
-
-            siegeController.stop(siege.get(), siege.get().getCity().getOwner());
-        }
+        siegeController.stop(siege, owner);
+        siege.send("siege.city-won", city.getName(), owner.getGroup().getName(), siege.getBesieger().getGroup().getName());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void modifyPlayerRespawn(PlayerRespawnEvent event) {
-        Besieger besieger = getBesieger(event.getPlayer());
+        Member member = getMember(event.getPlayer());
+        Besieger besieger = getBesieger(member);
 
         if (besieger != null) {
             Optional<Siege> siege = siegeController.getSiegeByAttacker(besieger);
@@ -175,6 +190,7 @@ class SiegingListener implements Listener {
 
             if (siege.get().isStarted()) {
                 event.setRespawnLocation(toBukkitLocation(server, siege.get().getLocationInitiated()));
+                member.send("siege.respawn-siegestone");
             }
         }
     }
