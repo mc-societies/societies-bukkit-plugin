@@ -62,6 +62,12 @@ public class BukkitSocietiesMember implements EconomyParticipant, org.societies.
 
         message = directory.getTranslation(message);
 
+        if (message.length() > Short.MAX_VALUE) {
+            player.sendMessage("Message way too long!");
+            System.out.println(message);
+            return;
+        }
+
         player.sendMessage(message);
     }
 
