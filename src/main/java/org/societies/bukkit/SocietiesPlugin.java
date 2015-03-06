@@ -50,8 +50,6 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
     private ListeningExecutorService service;
 
 
-
-
     @Override
     public void onEnable() {
         logger = new LoggerWrapper(this.getLogger());
@@ -91,7 +89,6 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
         memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {}));
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
         service = injector.getInstance(SocietiesModule.WORKER_EXECUTOR);
-
 
         serviceController.invoke(Lifecycle.STARTING);
     }
