@@ -1,6 +1,7 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
+import com.typesafe.config.Config;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
@@ -22,12 +23,14 @@ public class ListenerService extends AbstractService {
     private Logger logger;
 
     private final EventController eventController;
+    private final Config config;
 
     @Inject
-    public ListenerService(Server server, Plugin plugin, EventController eventController) {
+    public ListenerService(Server server, Plugin plugin, EventController eventController, Config config) {
         this.server = server;
         this.plugin = plugin;
         this.eventController = eventController;
+        this.config = config;
     }
 
     @Override
@@ -38,7 +41,10 @@ public class ListenerService extends AbstractService {
         pluginManager.registerEvents(context.get(DamageListener.class), plugin);
         pluginManager.registerEvents(context.get(SpawnListener.class), plugin);
         pluginManager.registerEvents(context.get(JoinListener.class), plugin);
-        pluginManager.registerEvents(context.get(SiegingListener.class), plugin);
+
+        if (config.getBoolean("city.enable")) {
+            pluginManager.registerEvents(context.get(SiegingListener.class), plugin);
+        }
 
         eventController.subscribe(new TeamListener());
     }

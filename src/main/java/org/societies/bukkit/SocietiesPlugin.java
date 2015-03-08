@@ -9,9 +9,11 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import com.typesafe.config.*;
 import net.catharos.lib.core.command.*;
 import net.catharos.lib.core.command.sender.Sender;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -70,10 +72,12 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
 
         logger.info("Reloading AK-47... Please wait patiently!");
 
+        Config config = loadConfig(dir);
+
         injector = Guice.createInjector(
                 new ServiceModule(),
                 new LoggingModule(logger),
-                new SocietiesModule(dir, logger),
+                new SocietiesModule(dir, logger, config),
                 new BukkitModule(this.getServer(), this, economy)
         );
 
@@ -91,6 +95,42 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
         service = injector.getInstance(SocietiesModule.WORKER_EXECUTOR);
 
         serviceController.invoke(Lifecycle.STARTING);
+    }
+
+    private Config loadConfig(File dir) {
+        ConfigParseOptions parseOptions = ConfigParseOptions.defaults()
+                .setAllowMissing(false)
+                .setSyntax(ConfigSyntax.CONF);
+
+        Config defaultConfig = ConfigFactory
+                .parseResources(SocietiesModule.class.getClassLoader(), "config.conf", parseOptions);
+
+        File file = new File(dir, "config.conf");
+
+        Config config;
+        if (file.exists()) {
+            config = ConfigFactory.parseFile(file, parseOptions).withFallback(defaultConfig);
+        } else {
+            config = ConfigFactory.empty().withFallback(defaultConfig);
+        }
+
+
+        ConfigRenderOptions renderOptions = ConfigRenderOptions
+                .defaults()
+                .setOriginComments(false)
+                .setJson(false)
+                .setFormatted(true);
+
+        String rendered = config.root().render(renderOptions);
+        config = config.resolve();
+
+        try {
+            FileUtils.writeStringToFile(file, rendered);
+        } catch (IOException e) {
+            logger.catching(e);
+        }
+
+        return config;
     }
 
     void print() throws UnsupportedEncodingException {
