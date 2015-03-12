@@ -155,7 +155,7 @@ class SiegingListener implements Listener {
             return;
         }
 
-        Optional<Siege> optional = siegeController.getSiege(BukkitWorld.toLocation(blockLocation));
+        Optional<Siege> optional = siegeController.getSiegeInitiatedAt(BukkitWorld.toLocation(blockLocation));
 
         if (!optional.isPresent()) {
             return;

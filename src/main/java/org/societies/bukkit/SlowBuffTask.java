@@ -11,6 +11,7 @@ import org.societies.api.sieging.Siege;
 import org.societies.api.sieging.SiegeController;
 import org.societies.bridge.Location;
 import org.societies.bridge.bukkit.BukkitWorld;
+import org.societies.groups.member.MemberProvider;
 
 /**
  * Represents a SlowBuffTask
@@ -18,10 +19,12 @@ import org.societies.bridge.bukkit.BukkitWorld;
 public class SlowBuffTask implements Runnable {
 
     private final SiegeController siegeController;
+    private final MemberProvider memberProvider;
 
     @Inject
-    public SlowBuffTask(SiegeController siegeController) {
+    public SlowBuffTask(SiegeController siegeController, MemberProvider memberProvider) {
         this.siegeController = siegeController;
+        this.memberProvider = memberProvider;
     }
 
     @Override
@@ -29,9 +32,9 @@ public class SlowBuffTask implements Runnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location location = BukkitWorld.toLocation(player.getLocation());
 
-            applyBuff(player, location, siegeController.getSiege(location));
+            applyBuff(player, location, siegeController.getSiegeInitiatedAt(location));
 
-            applyBuff(player, location, siegeController.getSiegeByInitiatedLocation(location));
+            applyBuff(player, location, siegeController.getSiegeInitiatedNear(location));
         }
     }
 
@@ -39,9 +42,14 @@ public class SlowBuffTask implements Runnable {
         if (optional.isPresent()) {
             Siege siege = optional.get();
 
+
+            if (!siege.getBesieger().getGroup().getMembers().contains(memberProvider.getMember(player.getUniqueId()))) {
+                return;
+            }
+
             City city = siege.getCity();
             if (city.getLocation().distance(location) < 5) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 4));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 80, 1));
             }
         }
     }
