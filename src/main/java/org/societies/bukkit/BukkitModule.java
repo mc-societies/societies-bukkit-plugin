@@ -54,6 +54,8 @@ public class BukkitModule extends AbstractServiceModule {
 
         bindService().to(SchedulerService.class);
 
+        bindNamed("version", String.class).toInstance(plugin.getDescription().getVersion());
+
         bind(Economy.class).toInstance(economy);
         bind(Server.class).toInstance(server);
         bind(Plugin.class).toInstance(plugin);
