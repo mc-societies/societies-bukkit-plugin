@@ -87,8 +87,10 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
 
 
         this.getServer().getPluginManager().registerEvents(this, this);
-        commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {}));
-        memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {}));
+        commands = injector.getInstance(Key.get(new TypeLiteral<Commands<Sender>>() {
+        }));
+        memberProvider = injector.getInstance(Key.get(new TypeLiteral<MemberProvider>() {
+        }));
         systemSender = injector.getInstance(Key.get(Sender.class, Names.named("system-sender")));
         service = injector.getInstance(SocietiesModule.WORKER_EXECUTOR);
 

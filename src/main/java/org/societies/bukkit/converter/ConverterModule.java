@@ -15,7 +15,9 @@ public class ConverterModule extends AbstractModule {
 
     private final Server server;
 
-    public ConverterModule(Server server) {this.server = server;}
+    public ConverterModule(Server server) {
+        this.server = server;
+    }
 
     @Override
     protected void configure() {

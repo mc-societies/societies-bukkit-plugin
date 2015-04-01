@@ -17,7 +17,9 @@ class BukkitPlayerResolver implements PlayerResolver {
     private final Server sender;
 
     @Inject
-    public BukkitPlayerResolver(Server sender) {this.sender = sender;}
+    public BukkitPlayerResolver(Server sender) {
+        this.sender = sender;
+    }
 
     @SuppressWarnings("deprecation")
     @Nullable
