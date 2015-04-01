@@ -28,7 +28,6 @@ import org.societies.bridge.ReloadAction;
 import org.societies.bukkit.economy.DummyEconomy;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-import org.societies.util.LoggerWrapper;
 
 import java.io.*;
 import java.util.ArrayList;
