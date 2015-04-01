@@ -9,10 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.societies.groups.cache.GroupCache;
-import org.societies.groups.cache.MemberCache;
-import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
 
@@ -23,18 +19,13 @@ class JoinListener implements Listener {
 
     private final MemberProvider memberProvider;
     private final ListeningExecutorService service;
-    private final MemberCache memberCache;
-    private final GroupCache groupCache;
-
 
     private final Logger logger;
 
     @Inject
-    public JoinListener(MemberProvider memberProvider, ListeningExecutorService service, MemberCache memberCache, GroupCache groupCache, Logger logger) {
+    public JoinListener(MemberProvider memberProvider, ListeningExecutorService service, Logger logger) {
         this.memberProvider = memberProvider;
         this.service = service;
-        this.memberCache = memberCache;
-        this.groupCache = groupCache;
         this.logger = logger;
     }
 
@@ -59,20 +50,5 @@ class JoinListener implements Listener {
                 logger.catching(throwable);
             }
         });
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Member member = memberCache.clear(event.getPlayer().getUniqueId());
-
-        if (member != null) {
-
-            member.activate();
-
-            Group group = member.getGroup();
-            if (group != null) {
-                groupCache.clear(member, group);
-            }
-        }
     }
 }
