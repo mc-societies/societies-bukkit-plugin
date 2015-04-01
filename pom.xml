@@ -26,12 +26,6 @@
             <artifactId>bukkit-bridge</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.societies</groupId>
-            <artifactId>societies-converter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -78,81 +72,6 @@
     </distributionManagement>
 
     <profiles>
-        <profile>
-            <id>extern</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <version>2.3</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <!--<outputFile>${project.build.finalName}.jar</outputFile>-->
-                                    <!--<minimizeJar>true</minimizeJar>-->
-                                    <artifactSet>
-                                        <includes>
-                                            <include>org.apache.logging.log4j:log4j-core</include>
-                                            <include>org.apache.logging.log4j:log4j-api</include>
-
-                                            <include>org.societies.bridge:bridge</include>
-                                            <include>org.societies.bridge:bukkit-bridge</include>
-
-                                            <include>org.societies:lib-groups</include>
-                                            <include>net.catharos.lib:lib-core</include>
-                                            <include>org.societies:lib-database</include>
-                                            <include>org.shank:shank</include>
-
-                                            <include>org.societies:societies-api</include>
-                                            <include>org.societies:societies</include>
-                                            <include>org.societies:societies-converter</include>
-
-                                            <include>org.flywaydb:flyway-core</include>
-
-                                            <include>org.apache.commons:commons-compress</include>
-                                            <include>com.google.guava:guava</include>
-                                            <include>com.google.inject**:*</include>
-                                        </includes>
-                                    </artifactSet>
-                                    <relocations>
-                                        <relocation>
-                                            <pattern>com.google.common</pattern>
-                                            <shadedPattern>org.societies.libs.guava</shadedPattern>
-                                        </relocation>
-                                        <relocation>
-                                            <pattern>org.apache.logging.log4j</pattern>
-                                            <shadedPattern>org.societies.libs.log4j</shadedPattern>
-                                        </relocation>
-                                    </relocations>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                    <!--<version>2.5.1</version>-->
-                    <!--<configuration>-->
-                    <!--<descriptor>src/assembly/assembly.xml</descriptor>-->
-                    <!--</configuration>-->
-                    <!--<executions>-->
-                    <!--<execution>-->
-                    <!--<phase>package</phase>-->
-                    <!--<goals>-->
-                    <!--<goal>single</goal>-->
-                    <!--</goals>-->
-                    <!--</execution>-->
-                    <!--</executions>-->
-                    <!--</plugin>-->
-                </plugins>
-            </build>
-        </profile>
 
         <profile>
             <id>shaded</id>
@@ -216,49 +135,6 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>proguard</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.wvengen</groupId>
-                        <artifactId>proguard-maven-plugin</artifactId>
-                        <version>2.0.8</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>proguard</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-
-                        <configuration>
-                            <!--<exclusions>-->
-                            <!--<exclusion>-->
-                            <!--<groupId>org.bukkit</groupId>-->
-                            <!--<artifactId>bukkit</artifactId>-->
-                            <!--</exclusion>-->
-
-                            <!--&lt;!&ndash; And so on &ndash;&gt;-->
-                            <!--</exclusions>-->
-
-                            <obfuscate>false</obfuscate>
-                            <includeDependency>true</includeDependency>
-                            <injar>${project.build.finalName}.jar</injar>
-                            <outjar>${project.build.finalName}-small.jar</outjar>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <proguardInclude>${basedir}/proguard.conf</proguardInclude>
-                            <libs>
-                                <lib>${java.home}/lib/rt.jar</lib>
-                                <lib>${java.home}/lib/jsse.jar</lib>
-                            </libs>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

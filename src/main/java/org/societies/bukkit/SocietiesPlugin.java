@@ -20,7 +20,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.shank.logging.LoggingModule;
 import org.shank.service.ServiceController;
 import org.shank.service.ServiceModule;
 import org.shank.service.lifecycle.Lifecycle;
@@ -76,7 +75,6 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
 
         injector = Guice.createInjector(
                 new ServiceModule(),
-                new LoggingModule(logger),
                 new SocietiesModule(dir, logger, config),
                 new BukkitModule(this.getServer(), this, economy)
         );

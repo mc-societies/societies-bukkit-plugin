@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.shank.logging.InjectLogger;
 import org.shank.service.AbstractService;
 import org.shank.service.lifecycle.LifecycleContext;
 import org.societies.groups.event.EventController;
@@ -19,16 +18,16 @@ public class ListenerService extends AbstractService {
     private final Server server;
     private final Plugin plugin;
 
-    @InjectLogger
-    private Logger logger;
+    private final Logger logger;
 
     private final EventController eventController;
     private final Config config;
 
     @Inject
-    public ListenerService(Server server, Plugin plugin, EventController eventController, Config config) {
+    public ListenerService(Server server, Plugin plugin, Logger logger, EventController eventController, Config config) {
         this.server = server;
         this.plugin = plugin;
+        this.logger = logger;
         this.eventController = eventController;
         this.config = config;
     }

@@ -1,13 +1,11 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import org.apache.logging.log4j.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.shank.config.ConfigSetting;
-import org.shank.logging.InjectLogger;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
@@ -19,9 +17,6 @@ class ChatListener implements Listener {
 
     private final boolean integration;
     private final MemberProvider provider;
-
-    @InjectLogger
-    private Logger logger;
 
     @Inject
     public ChatListener(@ConfigSetting("chat.integration") boolean integration, MemberProvider provider) {

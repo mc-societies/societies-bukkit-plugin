@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.shank.logging.InjectLogger;
 import org.societies.groups.cache.GroupCache;
 import org.societies.groups.cache.MemberCache;
 import org.societies.groups.group.Group;
@@ -27,15 +26,16 @@ class JoinListener implements Listener {
     private final MemberCache memberCache;
     private final GroupCache groupCache;
 
-    @InjectLogger
-    private Logger logger;
+
+    private final Logger logger;
 
     @Inject
-    public JoinListener(MemberProvider memberProvider, ListeningExecutorService service, MemberCache memberCache, GroupCache groupCache) {
+    public JoinListener(MemberProvider memberProvider, ListeningExecutorService service, MemberCache memberCache, GroupCache groupCache, Logger logger) {
         this.memberProvider = memberProvider;
         this.service = service;
         this.memberCache = memberCache;
         this.groupCache = groupCache;
+        this.logger = logger;
     }
 
     @EventHandler

@@ -12,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.shank.config.ConfigSetting;
-import org.shank.logging.InjectLogger;
 import org.societies.bridge.Location;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
@@ -29,19 +28,19 @@ class SpawnListener implements Listener {
     private final ListeningExecutorService service;
     private final Setting<Location> homeSetting;
 
-    @InjectLogger
-    private Logger logger;
+    private final Logger logger;
 
     @Inject
     public SpawnListener(@ConfigSetting("home.replace-spawn") boolean respawnHome,
                          MemberProvider memberProvider,
                          ListeningExecutorService service,
-                         @Named("home") Setting<Location> homeSetting) {
+                         @Named("home") Setting<Location> homeSetting, Logger logger) {
 
         this.respawnHome = respawnHome;
         this.memberProvider = memberProvider;
         this.service = service;
         this.homeSetting = homeSetting;
+        this.logger = logger;
     }
 
     @EventHandler
