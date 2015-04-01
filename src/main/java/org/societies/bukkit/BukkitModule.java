@@ -84,8 +84,7 @@ public class BukkitModule extends AbstractServiceModule {
 
         bind(SystemSender.class).to(BukkitSystemSender.class);
 
-        bind(new TypeLiteral<Collection<org.societies.bridge.Material>>() {
-        }).toInstance(materials);
+        bind(new TypeLiteral<Collection<org.societies.bridge.Material>>() {}).toInstance(materials);
 
         install(new ConverterModule(server));
         bindService().to(ConverterService.class);
@@ -94,19 +93,16 @@ public class BukkitModule extends AbstractServiceModule {
 
         Multibinder<ExtensionRoller<Member>> extensions = newSetBinder(
                 binder(),
-                new TypeLiteral<ExtensionRoller<Member>>() {
-                }
+                new TypeLiteral<ExtensionRoller<Member>>() {}
         );
 
         install(new FactoryModuleBuilder()
                 .implement(Sender.class, BukkitSocietiesMember.class)
-                .build(new TypeLiteral<ExtensionFactory<Sender, UUID>>() {
-                }));
+                .build(new TypeLiteral<ExtensionFactory<Sender, UUID>>() {}));
 
         install(new FactoryModuleBuilder()
                 .implement(BukkitSocietiesMember.class, BukkitSocietiesMember.class)
-                .build(new TypeLiteral<ExtensionFactory<BukkitSocietiesMember, UUID>>() {
-                }));
+                .build(new TypeLiteral<ExtensionFactory<BukkitSocietiesMember, UUID>>() {}));
 
         extensions.addBinding().to(BridgeExtensionRoller.class);
 
