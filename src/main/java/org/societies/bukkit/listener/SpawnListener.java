@@ -5,7 +5,6 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,10 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.shank.config.ConfigSetting;
 import org.societies.bridge.Location;
+import org.societies.api.group.Society;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-import org.societies.groups.setting.Setting;
+
+import java.util.Optional;
 
 /**
  * Represents a SpawnListener
@@ -26,20 +27,17 @@ class SpawnListener implements Listener {
     private final boolean respawnHome;
     private final MemberProvider memberProvider;
     private final ListeningExecutorService service;
-    private final Setting<Location> homeSetting;
 
     private final Logger logger;
 
     @Inject
     public SpawnListener(@ConfigSetting("home.replace-spawn") boolean respawnHome,
                          MemberProvider memberProvider,
-                         ListeningExecutorService service,
-                         @Named("home") Setting<Location> homeSetting, Logger logger) {
+                         ListeningExecutorService service, Logger logger) {
 
         this.respawnHome = respawnHome;
         this.memberProvider = memberProvider;
         this.service = service;
-        this.homeSetting = homeSetting;
         this.logger = logger;
     }
 
@@ -59,11 +57,13 @@ class SpawnListener implements Listener {
                         return;
                     }
 
-                    Location location = group.get(homeSetting);
+                    Society society = group.get(Society.class);
+
+                    Optional<Location> location = society.getHome();
 
 
-                    if (location != null) {
-                        result.get(org.societies.bridge.Player.class).teleport(location);
+                    if (location.isPresent()) {
+                        result.get(org.societies.bridge.Player.class).teleport(location.get());
                     }
                 }
             });

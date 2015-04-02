@@ -11,9 +11,9 @@ import com.p000ison.dev.simpleclans2.clanplayer.CraftClanPlayerManager;
 import gnu.trove.map.hash.THashMap;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
-import org.societies.bridge.Location;
 import org.societies.bridge.bukkit.BukkitWorld;
 import org.societies.converter.AbstractConverter;
+import org.societies.api.group.Society;
 import org.societies.groups.Relation;
 import org.societies.groups.RelationFactory;
 import org.societies.groups.group.Group;
@@ -23,7 +23,6 @@ import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberFactory;
 import org.societies.groups.member.MemberPublisher;
 import org.societies.groups.rank.Rank;
-import org.societies.groups.setting.Setting;
 
 import java.io.IOException;
 import java.util.Set;
@@ -45,10 +44,8 @@ public class SimpleClans2Converter extends AbstractConverter {
                                  MemberFactory memberFactory,
                                  Provider<GroupBuilder> groupBuilder,
                                  RelationFactory relationFactory,
-                                 @Named("group-balance") Setting<Double> balance,
-                                 @Named("home") Setting<Location> home,
                                  @Named("super-default-rank") Rank superDefaultRank, Logger logger) {
-        super(memberFactory, groupBuilder, relationFactory, balance, home, superDefaultRank, memberPublisher, groupPublisher);
+        super(memberFactory, groupBuilder, relationFactory, superDefaultRank, memberPublisher, groupPublisher);
         this.simpleClans = simpleClans;
         this.logger = logger;
     }
@@ -75,8 +72,10 @@ public class SimpleClans2Converter extends AbstractConverter {
                 Group group = builder.build();
                 publish(group);
 
-                group.set(getBalanceSetting(), clan.getBalance());
-                group.set(getHomeSetting(), BukkitWorld.toLocation(clan.getFlags().getHomeLocation()));
+                Society society = group.get(Society.class);
+
+                society.setBalance(clan.getBalance());
+                society.setHome(BukkitWorld.toLocation(clan.getFlags().getHomeLocation()));
 
                 groups.put(group.getTag(), group);
             } catch (RuntimeException e) {

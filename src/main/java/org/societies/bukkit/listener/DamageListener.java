@@ -1,7 +1,6 @@
 package org.societies.bukkit.listener;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -12,11 +11,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.Nullable;
 import org.shank.config.ConfigSetting;
+import org.societies.api.group.Society;
 import org.societies.groups.Relation;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-import org.societies.groups.setting.Setting;
+import org.societies.api.member.SocietyMember;
 
 import java.util.List;
 
@@ -29,23 +29,16 @@ class DamageListener implements Listener {
     private final List<String> disabledWorlds;
     private final boolean globalFFForced;
     private final boolean saveCivilians;
-    private final Setting<Boolean> personalFF;
-    private final Setting<Boolean> groupFF;
 
     @Inject
     public DamageListener(MemberProvider provider,
                           @ConfigSetting("blacklisted-worlds") List<String> disabledWorlds,
                           @ConfigSetting("pvp.global-ff-forced") boolean globalFFForced,
-                          @ConfigSetting("pvp.save-civilians") boolean saveCivilians,
-                          @Named("personal-ff") Setting<Boolean> personalFF,
-                          @Named("group-ff") Setting<Boolean> groupFF) {
+                          @ConfigSetting("pvp.save-civilians") boolean saveCivilians) {
         this.provider = provider;
         this.disabledWorlds = disabledWorlds;
         this.globalFFForced = globalFFForced;
         this.saveCivilians = saveCivilians;
-
-        this.personalFF = personalFF;
-        this.groupFF = groupFF;
     }
 
     @Nullable
@@ -106,8 +99,12 @@ class DamageListener implements Listener {
             // skip if globalff is on
             // group ff enabled, allow damage
 
-            boolean personalFF = victim.getBoolean(this.personalFF);
-            boolean groupFF = victimGroup.getBoolean(this.groupFF);
+            Society victimSociety = victimGroup.get(Society.class);
+            SocietyMember victimSocietyMember = victimGroup.get(SocietyMember.class);
+
+
+            boolean personalFF = victimSocietyMember.isFriendlyFire();
+            boolean groupFF = victimSociety.isFriendlyFire();
             if (globalFFForced || personalFF || groupFF) {
                 return;
             }
