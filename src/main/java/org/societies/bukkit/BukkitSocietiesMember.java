@@ -2,10 +2,9 @@ package org.societies.bukkit;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import net.catharos.lib.core.command.Command;
-import net.catharos.lib.core.command.sender.Sender;
-import net.catharos.lib.core.i18n.Dictionary;
 import net.milkbowl.vault.economy.Economy;
+import order.Command;
+import order.sender.Sender;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -21,6 +20,7 @@ import org.societies.bridge.World;
 import org.societies.bridge.bukkit.BukkitInventory;
 import org.societies.bridge.bukkit.BukkitItemStack;
 import org.societies.bridge.bukkit.BukkitWorld;
+import org.societies.groups.dictionary.Dictionary;
 import org.societies.member.locale.LocaleProvider;
 
 import java.util.Locale;

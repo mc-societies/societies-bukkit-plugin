@@ -10,9 +10,9 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.typesafe.config.*;
-import net.catharos.lib.core.command.*;
-import net.catharos.lib.core.command.sender.Sender;
 import net.milkbowl.vault.economy.Economy;
+import order.*;
+import order.sender.Sender;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.command.CommandSender;
@@ -143,7 +143,7 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
     public void printPluginYMLPermissions(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " [?]") {
             @Override
-            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+            public void iterate(order.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
                     return;
                 }
@@ -156,7 +156,7 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
     public void printMarkdownPermissions(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ", " [?]") {
             @Override
-            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+            public void iterate(order.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
                     return;
                 }
@@ -168,7 +168,7 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
     public void printMarkdownCommands(final PrintStream stream) {
         commands.iterate(new FormatCommandIterator<Sender>("/", " - ", false, " [?]") {
             @Override
-            public void iterate(net.catharos.lib.core.command.Command<Sender> command, String format) {
+            public void iterate(order.Command<Sender> command, String format) {
                 if (command.getPermission() == null) {
                     return;
                 }
@@ -263,13 +263,13 @@ public class SocietiesPlugin extends JavaPlugin implements Listener, ReloadActio
             // Using dummy sender
             CommandContext<Sender> ctx = commands.createContext(new SystemSender(), command.getName(), arguments);
 
-            net.catharos.lib.core.command.Command<Sender> groupCommand = ctx.getCommand();
+            order.Command<Sender> groupCommand = ctx.getCommand();
 
             if (groupCommand instanceof GroupCommand) {
 
                 List<String> output = new ArrayList<String>(((GroupCommand<Sender>) groupCommand).size());
 
-                for (net.catharos.lib.core.command.Command<Sender> cmd : ((GroupCommand<Sender>) groupCommand).getChildren()) {
+                for (order.Command<Sender> cmd : ((GroupCommand<Sender>) groupCommand).getChildren()) {
                     if (cmd.getIdentifier().startsWith(args[args.length - 1])) {
                         output.add(cmd.getIdentifier());
                     }

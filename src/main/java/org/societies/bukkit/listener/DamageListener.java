@@ -12,11 +12,11 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.Nullable;
 import org.shank.config.ConfigSetting;
 import org.societies.api.group.Society;
+import org.societies.api.member.SocietyMember;
 import org.societies.groups.Relation;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
-import org.societies.api.member.SocietyMember;
 
 import java.util.List;
 

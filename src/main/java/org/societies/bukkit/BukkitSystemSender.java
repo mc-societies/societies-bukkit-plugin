@@ -1,10 +1,10 @@
 package org.societies.bukkit;
 
 import com.google.inject.Inject;
-import net.catharos.lib.core.command.SystemSender;
-import net.catharos.lib.core.i18n.Dictionary;
+import order.SystemSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.societies.bridge.ChatColor;
+import org.societies.groups.dictionary.Dictionary;
 
 import java.text.MessageFormat;
 
