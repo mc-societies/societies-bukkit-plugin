@@ -1,5 +1,6 @@
 package org.societies.bukkit.listener;
 
+import com.google.common.base.Optional;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -11,13 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.shank.config.ConfigSetting;
-import org.societies.bridge.Location;
 import org.societies.api.group.Society;
+import org.societies.bridge.Location;
 import org.societies.groups.group.Group;
 import org.societies.groups.member.Member;
 import org.societies.groups.member.MemberProvider;
 
-import java.util.Optional;
 
 /**
  * Represents a SpawnListener
