@@ -131,7 +131,7 @@ class SiegingListener implements Listener {
                 && bindstone.getRoundedY() == blockLocation.getBlockY()
                 && bindstone.getRoundedZ() == blockLocation.getBlockZ()) {
 
-            Set<Siege> sieges = siegeController.getSieges(city);
+            Set<Siege> sieges = siegeController.getSiegesByLocation(city);
 
             for (Siege siege : sieges) {
                 if (siege.isStarted() && siege.getBesieger().equals(besieger)) {

@@ -32,7 +32,7 @@ public class SlowBuffTask implements Runnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location location = BukkitWorld.toLocation(player.getLocation());
 
-            applyBuff(player, location, siegeController.getSiegeInitiatedAt(location));
+            applyBuff(player, location, siegeController.getSiegeByLocation(location));
 
             applyBuff(player, location, siegeController.getSiegeInitiatedNear(location));
         }
